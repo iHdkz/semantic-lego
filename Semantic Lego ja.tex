@@ -1,0 +1,167 @@
+\documentclass[11pt, oneside]{jsarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+\usepackage{listings}
+\lstset{%
+  language={lisp},
+  basicstyle={\small},%
+  numbers=left,%
+}
+
+\setcounter{tocdepth}{3}
+\title{意味論的レゴ\\
+（Semantic Lego）
+}
+\author{デビッド エスピノーザ(著)\\
+David Espinosa
+}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+
+Columbia University
+Department of Computer Science
+New York, NY 10027
+espinosa@cs.columbia.edu
+Draft March 20, 1995
+
+original: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.31.2885
+
+figures including sample codes: https://github.com/iHdkz/semantic-lego
+
+\begin{abstract}
+　表示的意味論（denotational semantics）[Sch86]は、プログラミング言語を記述するための強力な枠組みの一つである。しかしながら、表示的意味論による記述にはモジュール性の欠如、すなわち、概念的には独立した筈である言語のある特徴的機能がその言語の他の特徴的機能の意味論に影響を与えてしまうという問題がある。我々は、モジュール性を持った表示的意味論の理論を示していくことによって、この問題への対処を行なった。
+　Mosses[Mos92]に従い、我々は（言語の）一つの意味論を、計算ADT（computation ADT）と言語ADT（language ADT; ADT, abstract data type: 抽象データ型）の二つの部分に分ける。計算ADTは、その言語にとっての基本的な意味論の構造を表現する。言語ADTは、文法によって記述されるものとしての実用的な言語の構成を表現する。我々は計算ADTを用いて言語ADTを定義することとなるが、（言語ADTの持つ性質はその組み立てられた言語ADTにみられるものだけではなく）現実には、多くの異なる計算ADT（の存在）によって、言語ADTは多様な形態を持つものである。
+\end{abstract}
+\tableofcontents
+
+謝辞
+私の婚約者であるマリー Ngは、何年もの間わたってこのテーマの完成を根気強く待ってくれた。
+
+%\section{}
+%\subsection{}
+
+\section{導入}
+\subsection{ ADT（抽象データ型）としての言語}
+(compute '((lambda x (* x x)) 9))
+=> 81
+
+(compute (%call (%lambda 'x (%* (%var 'x) (%var 'x))) (%num 9)))
+
+=> 81
+
+\lstinputlisting[caption=ほげほげ,label=インタプリタ]{figure1.1_Interpreter.scm}
+
+図1.1 インタプリタ,
+図1.2 環境ADT（環境抽象データ型）,
+図1.3 述語と選択子（selector）の表現,
+図1.4 構築子（constructor；コンストラクタ）の表現,
+図1.6 表示的（意味論的）な実装,
+図1.7 構文から意味への写像
+a
+
+\subsection{単層（monolithic）インタプリタ}
+\subsection{部品的（modular）インタプリタ}
+図1.8 単層インタプリタ 一部 ,
+
+図1.9 単層インタプリタ 二部,
+
+図1.10 格納（Store）ADT
+
+
+\subsubsection{インタプリタの持ち上げ（lifting）}
+図1.11 持ち上げ演算子,
+
+図1.12 値レベル
+
+\subsubsection{多階層（stratified）インタプリタ}
+図1.13 格納（Store）レベル,
+
+図1.14 環境レベル
+
+
+\subsection{例示}
+この節における例示はSEMANTIC LEGO（以後 SL と略記）の入力/出力の振る舞いを示しており、次の二つの章はその背後の仕組みを説明する。我々はそこで、
+
+フル装備の、schemeに似たある言語、
+非決定性と継続の間の三つの相互作用、
+Lampingの単一化された、パラメータで指定されるシステム（unified system of parametrization）、
+再開機能（resumption）を用いて模型化された一つの並列言語
+を考えることになる。
+図1.15 レベル交渉演算子
+
+図1.16 部品的インタプリタ 一部
+
+図1.17 部品的インタプリタ 二部
+
+\subsection{あるschemeに似た言語}
+我々は、環境（environment）、手続きの値呼び出し（call by value procedure）、格納（store）、継続（continuation）、非決定性基盤（nondeterminism）及び例外処理（error）の各機能を持つ言語のインタプリタを構成する。図1.18は完全なその言語の仕様、基本的な意味論及び例としての二つの式を示している。SL は、接頭式（prefix form）内において、自動的に基本的な意味論の記述が生成される。
+
+我々は、二つの段階を経てインタプリタを建設する。要点としては、
+
+\subsubsection{非決定性（nondeterministic）と継続（continuation）}
+図1.19 %let ソースの定義,
+図1.21 %amb ソースの定義
+\subsubsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
+\subsubsection{再開機能（Resumption）}
+
+\section{ モナド（Monads）}
+\subsection{基本的な圏論}
+\subsubsection{ 圏 }
+\subsubsection{ 関手 }
+\subsubsection{ 自然変換 }
+\subsubsection{ 始対象の性質（initiality）}
+\subsubsection{ 双対性 }
+\subsubsection{ 圏論と関数型プログラミング }
+\subsubsection{ 参照 }
+\subsection{ モナド }
+\subsubsection{ 初段階目の形式化 }
+\subsubsection{ 二段階目の形式化 }
+\subsubsection{ 解釈 }
+\subsection{ モナド射（monad morphism） }
+\subsection{ 組み合わせないモナド }
+\subsection{ 組み合せたモナド }
+\subsection{ モナド変換子（monad transformers） }
+\subsubsection{  動機 }
+\subsubsection{  形式化 }
+\subsubsection{ モナド変換子のクラス }
+\subsubsection{ モナド変換子の組み合わせ }
+\section{ 持ち上げ（lifting）}
+\subsection{ 持ち上げ（lifting） }
+\subsubsection{  形式的持ち上げ }
+\subsubsection{ モナドと持ち上げ }
+\subsection{ 語用論（pragmatics） }
+\subsubsection{ 上昇型（bottom-up） }
+\subsubsection{ 下降型（top-down） }
+\section{ 多階層性（stratification）}
+\subsection{ 多階層モナド（stratified monads） }
+\subsection{ 多階層モナド変換子（stratified monad transformers） }
+\subsubsection{ 頂変換子（top transformers） }
+\subsubsection{ 底変換子（bottom transformers） }
+\subsubsection{ 周辺変換子（around transformers） }
+\subsubsection{ 継続変換子（continuation transformers） }
+\subsection{ 計算ADT }
+\subsection{ 言語ADT }
+\section{ 結論 }
+\subsection{ 持ち上げ 対 多階層性 }
+\subsection{ 極限 }
+\subsection{ 関連事項 }
+\subsection{ 将来的事項 }
+\subsection{ 結論 }
+A　雑録
+    A.1    なぜschemeか
+    A.2    型についての重要な点
+    A.3    型付きの値 対 型無しの値
+    A.4    拡張可能な和と積
+B　コード
+    B.1    モナド変換子の定義
+
+
+\end{document}  
