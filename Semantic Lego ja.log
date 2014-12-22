@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.5-130605-2.6 (utf8.euc) (TeX Live 2014) (preloaded format=platex 2014.11.19)  22 DEC 2014 20:30
+This is e-pTeX, Version 3.14159265-p3.5-130605-2.6 (utf8.euc) (TeX Live 2014) (preloaded format=platex 2014.11.19)  22 DEC 2014 20:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -265,23 +265,42 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 7.
- [3]) [4] [5]
-[6]
+ [3])
+(./figure1.21_amb_source_definition.scm [4]) (./figure1.22_amb_version1.scm
+LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <9> not available
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 1.
+LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <9> not available
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 1.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 7.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 7.
+LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <9> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 26.
+)
+(./figure1.23_amb_version2.scm [5]) (./figure1.24_amb_version3.scm [6])
+(./figure1.25_Unified_system_of_parametrization.scm
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 15.
+) [7] [8]
 Overfull \vbox (410.25658pt too high) has occurred while \output is active []
 
 
-[7] (./Semantic Lego ja.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[9] (./Semantic Lego ja.aux) ) 
 Here is how much of TeX's memory you used:
- 3197 strings out of 493807
- 42741 string characters out of 6151950
- 148623 words of memory out of 5000000
- 6645 multiletter control sequences out of 15000+600000
- 20624 words of font info for 93 fonts, out of 8000000 for 9000
+ 3275 strings out of 493807
+ 44134 string characters out of 6151950
+ 150623 words of memory out of 5000000
+ 6704 multiletter control sequences out of 15000+600000
+ 20969 words of font info for 94 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  31i,6n,40p,536b,1901s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on "Semantic Lego ja.dvi" (7 pages, 35588 bytes).
+Output written on "Semantic Lego ja.dvi" (9 pages, 45064 bytes).

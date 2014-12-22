@@ -1,54 +1,54 @@
 \contentsline {section}{\numberline {1}導入}{3}
 \contentsline {subsection}{\numberline {1.1} ADT（抽象データ型）としての言語}{3}
-\contentsline {subsection}{\numberline {1.2}単層（monolithic）インタプリタ}{5}
-\contentsline {subsection}{\numberline {1.3}部品的（modular）インタプリタ}{5}
-\contentsline {subsubsection}{\numberline {1.3.1}インタプリタの持ち上げ（lifting）}{5}
-\contentsline {subsubsection}{\numberline {1.3.2}多階層（stratified）インタプリタ}{5}
-\contentsline {subsection}{\numberline {1.4}例示}{5}
-\contentsline {subsection}{\numberline {1.5}あるschemeに似た言語}{5}
-\contentsline {subsubsection}{\numberline {1.5.1}非決定性（nondeterministic）と継続（continuation）}{6}
-\contentsline {subsubsection}{\numberline {1.5.2}単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}{7}
-\contentsline {subsubsection}{\numberline {1.5.3}再開機能（Resumption）}{7}
-\contentsline {section}{\numberline {2} モナド（Monads）}{7}
-\contentsline {subsection}{\numberline {2.1}基本的な圏論}{7}
-\contentsline {subsubsection}{\numberline {2.1.1} 圏 }{7}
-\contentsline {subsubsection}{\numberline {2.1.2} 関手 }{7}
-\contentsline {subsubsection}{\numberline {2.1.3} 自然変換 }{7}
-\contentsline {subsubsection}{\numberline {2.1.4} 始対象の性質（initiality）}{7}
-\contentsline {subsubsection}{\numberline {2.1.5} 双対性 }{7}
-\contentsline {subsubsection}{\numberline {2.1.6} 圏論と関数型プログラミング }{7}
-\contentsline {subsubsection}{\numberline {2.1.7} 参照 }{7}
-\contentsline {subsection}{\numberline {2.2} モナド }{7}
-\contentsline {subsubsection}{\numberline {2.2.1} 初段階目の形式化 }{7}
-\contentsline {subsubsection}{\numberline {2.2.2} 二段階目の形式化 }{7}
-\contentsline {subsubsection}{\numberline {2.2.3} 解釈 }{7}
-\contentsline {subsection}{\numberline {2.3} モナド射（monad morphism） }{7}
-\contentsline {subsection}{\numberline {2.4} 組み合わせないモナド }{7}
-\contentsline {subsection}{\numberline {2.5} 組み合せたモナド }{7}
-\contentsline {subsection}{\numberline {2.6} モナド変換子（monad transformers） }{7}
-\contentsline {subsubsection}{\numberline {2.6.1} 動機 }{7}
-\contentsline {subsubsection}{\numberline {2.6.2} 形式化 }{7}
-\contentsline {subsubsection}{\numberline {2.6.3} モナド変換子のクラス }{7}
-\contentsline {subsubsection}{\numberline {2.6.4} モナド変換子の組み合わせ }{7}
-\contentsline {section}{\numberline {3} 持ち上げ（lifting）}{7}
-\contentsline {subsection}{\numberline {3.1} 持ち上げ（lifting） }{7}
-\contentsline {subsubsection}{\numberline {3.1.1} 形式的持ち上げ }{7}
-\contentsline {subsubsection}{\numberline {3.1.2} モナドと持ち上げ }{7}
-\contentsline {subsection}{\numberline {3.2} 語用論（pragmatics） }{7}
-\contentsline {subsubsection}{\numberline {3.2.1} 上昇型（bottom-up） }{7}
-\contentsline {subsubsection}{\numberline {3.2.2} 下降型（top-down） }{7}
-\contentsline {section}{\numberline {4} 多階層性（stratification）}{7}
-\contentsline {subsection}{\numberline {4.1} 多階層モナド（stratified monads） }{7}
-\contentsline {subsection}{\numberline {4.2} 多階層モナド変換子（stratified monad transformers） }{7}
-\contentsline {subsubsection}{\numberline {4.2.1} 頂変換子（top transformers） }{7}
-\contentsline {subsubsection}{\numberline {4.2.2} 底変換子（bottom transformers） }{7}
-\contentsline {subsubsection}{\numberline {4.2.3} 周辺変換子（around transformers） }{7}
-\contentsline {subsubsection}{\numberline {4.2.4} 継続変換子（continuation transformers） }{7}
-\contentsline {subsection}{\numberline {4.3} 計算ADT }{7}
-\contentsline {subsection}{\numberline {4.4} 言語ADT }{7}
-\contentsline {section}{\numberline {5} 結論 }{7}
-\contentsline {subsection}{\numberline {5.1} 持ち上げ 対 多階層性 }{7}
-\contentsline {subsection}{\numberline {5.2} 極限 }{7}
-\contentsline {subsection}{\numberline {5.3} 関連事項 }{7}
-\contentsline {subsection}{\numberline {5.4} 将来的事項 }{7}
-\contentsline {subsection}{\numberline {5.5} 結論 }{7}
+\contentsline {subsection}{\numberline {1.2}単層（monolithic）インタプリタ}{7}
+\contentsline {subsection}{\numberline {1.3}部品的（modular）インタプリタ}{7}
+\contentsline {subsubsection}{\numberline {1.3.1}インタプリタの持ち上げ（lifting）}{8}
+\contentsline {subsubsection}{\numberline {1.3.2}多階層（stratified）インタプリタ}{8}
+\contentsline {subsection}{\numberline {1.4}例示}{8}
+\contentsline {subsection}{\numberline {1.5}あるschemeに似た言語}{8}
+\contentsline {subsubsection}{\numberline {1.5.1}非決定性（nondeterministic）と継続（continuation）}{8}
+\contentsline {subsubsection}{\numberline {1.5.2}単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}{9}
+\contentsline {subsubsection}{\numberline {1.5.3}再開機能（Resumption）}{9}
+\contentsline {section}{\numberline {2} モナド（Monads）}{9}
+\contentsline {subsection}{\numberline {2.1}基本的な圏論}{9}
+\contentsline {subsubsection}{\numberline {2.1.1} 圏 }{9}
+\contentsline {subsubsection}{\numberline {2.1.2} 関手 }{9}
+\contentsline {subsubsection}{\numberline {2.1.3} 自然変換 }{9}
+\contentsline {subsubsection}{\numberline {2.1.4} 始対象の性質（initiality）}{9}
+\contentsline {subsubsection}{\numberline {2.1.5} 双対性 }{9}
+\contentsline {subsubsection}{\numberline {2.1.6} 圏論と関数型プログラミング }{9}
+\contentsline {subsubsection}{\numberline {2.1.7} 参照 }{9}
+\contentsline {subsection}{\numberline {2.2} モナド }{9}
+\contentsline {subsubsection}{\numberline {2.2.1} 初段階目の形式化 }{9}
+\contentsline {subsubsection}{\numberline {2.2.2} 二段階目の形式化 }{9}
+\contentsline {subsubsection}{\numberline {2.2.3} 解釈 }{9}
+\contentsline {subsection}{\numberline {2.3} モナド射（monad morphism） }{9}
+\contentsline {subsection}{\numberline {2.4} 組み合わせないモナド }{9}
+\contentsline {subsection}{\numberline {2.5} 組み合せたモナド }{9}
+\contentsline {subsection}{\numberline {2.6} モナド変換子（monad transformers） }{9}
+\contentsline {subsubsection}{\numberline {2.6.1} 動機 }{9}
+\contentsline {subsubsection}{\numberline {2.6.2} 形式化 }{9}
+\contentsline {subsubsection}{\numberline {2.6.3} モナド変換子のクラス }{9}
+\contentsline {subsubsection}{\numberline {2.6.4} モナド変換子の組み合わせ }{9}
+\contentsline {section}{\numberline {3} 持ち上げ（lifting）}{9}
+\contentsline {subsection}{\numberline {3.1} 持ち上げ（lifting） }{9}
+\contentsline {subsubsection}{\numberline {3.1.1} 形式的持ち上げ }{9}
+\contentsline {subsubsection}{\numberline {3.1.2} モナドと持ち上げ }{9}
+\contentsline {subsection}{\numberline {3.2} 語用論（pragmatics） }{9}
+\contentsline {subsubsection}{\numberline {3.2.1} 上昇型（bottom-up） }{9}
+\contentsline {subsubsection}{\numberline {3.2.2} 下降型（top-down） }{9}
+\contentsline {section}{\numberline {4} 多階層性（stratification）}{9}
+\contentsline {subsection}{\numberline {4.1} 多階層モナド（stratified monads） }{9}
+\contentsline {subsection}{\numberline {4.2} 多階層モナド変換子（stratified monad transformers） }{9}
+\contentsline {subsubsection}{\numberline {4.2.1} 頂変換子（top transformers） }{9}
+\contentsline {subsubsection}{\numberline {4.2.2} 底変換子（bottom transformers） }{9}
+\contentsline {subsubsection}{\numberline {4.2.3} 周辺変換子（around transformers） }{9}
+\contentsline {subsubsection}{\numberline {4.2.4} 継続変換子（continuation transformers） }{9}
+\contentsline {subsection}{\numberline {4.3} 計算ADT }{9}
+\contentsline {subsection}{\numberline {4.4} 言語ADT }{9}
+\contentsline {section}{\numberline {5} 結論 }{9}
+\contentsline {subsection}{\numberline {5.1} 持ち上げ 対 多階層性 }{9}
+\contentsline {subsection}{\numberline {5.2} 極限 }{9}
+\contentsline {subsection}{\numberline {5.3} 関連事項 }{9}
+\contentsline {subsection}{\numberline {5.4} 将来的事項 }{9}
+\contentsline {subsection}{\numberline {5.5} 結論 }{9}
