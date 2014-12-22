@@ -6,11 +6,26 @@
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
+
+\usepackage{color}
 \usepackage{listings}
 \lstset{%
   language={lisp},
-  basicstyle={\small},%
-  numbers=left,%
+  basicstyle={\ttfamily\small},
+  %keywordstyle={\color{OliveGreen}},
+  %[2][3]はプログラミング言語によってあったり、なかったり
+  keywordstyle={[2]\color{colFunc}},
+  keywordstyle={[3]\color{CadetBlue}},%
+  %commentstyle={\color{Brown}},
+  %identifierstyle={\color{colID}},
+  stringstyle=\color{blue},
+  tabsize=2,
+  frame=single,
+  numbers=left,
+  numberstyle={\ttfamily\small},
+  breaklines=true,%折り返し
+  %backgroundcolor={\color[gray]{.95}},
+  captionpos=b
 }
 
 \setcounter{tocdepth}{3}
@@ -42,7 +57,7 @@ figures including sample codes: https://github.com/iHdkz/semantic-lego
 \end{abstract}
 \tableofcontents
 
-謝辞
+\section*{謝辞}
 私の婚約者であるマリー Ngは、何年もの間わたってこのテーマの完成を根気強く待ってくれた。
 
 %\section{}
@@ -57,36 +72,44 @@ figures including sample codes: https://github.com/iHdkz/semantic-lego
 
 => 81
 
-\lstinputlisting[caption=インタプリタ,label=インタプリタ]{figure1.1_Interpreter.scm}
+\lstinputlisting[title={図1.1 インタプリタ},label=fig1.1]{figure1.1_Interpreter.scm}
 
-\lstinputlisting[caption=, label=環境ADT（環境抽象データ型）]{figure1.21_amb_source_definition.scm}
+\lstinputlisting[title=図1.2 環境ADT（環境抽象データ型）, label=fig1.2]{figure1.2_Environment_ADT.scm}
 
-\lstinputlisting[caption=, label=述語と選択子（selector）の表現]{figure1.22_amb_version1.scm}
+\lstinputlisting[title=図1.3 述語と選択子（selector）の表現, label=fig1.3]{figure1.3_Expression_predicates_and_selectors.scm}
 
-\lstinputlisting[caption=, label=構築子（constructor；コンストラクタ）の表現]{figure1.23_amb_version2.scm}
+\lstinputlisting[title=図1.4 構築子（constructor；コンストラクタ, label=fig1.4）の表現]{figure1.4_Expression_constructors.scm}
 
-\lstinputlisting[caption=, label=表示的（意味論的）な実装]{figure1.24_amb_version3.scm}
+\lstinputlisting[title=図1.6 表示的（意味論的）な実装, label=fig1.6]{figure1.6_Denotational_implementation.scm}
 
-\lstinputlisting[caption=, label=構文から意味への写像]{figure1.25_Unified_system_of_parametrization.scm}
+\lstinputlisting[title=図1.7 構文から意味への写像, label=fig1.7]{figure1.7_Map_from_syntax_to_semantics.scm}
 
 \subsection{単層（monolithic）インタプリタ}
 \subsection{部品的（modular）インタプリタ}
-図1.8 単層インタプリタ 一部 ,
 
-図1.9 単層インタプリタ 二部,
+\lstinputlisting[title=図1.8 単層インタプリタ 一部 , label=fig1.8]{figure1.8_Monolithic_interpreter_part1.scm}
 
-図1.10 格納（Store）ADT
+
+\lstinputlisting[title=図1.9 単層インタプリタ 二部, label=fig1.9]{figure1.9_Monolithic_interpreter_part2.scm}
+
+
+\lstinputlisting[title=図1.10 格納（Store）ADT, label=fig1.10]{figure1.10_Store_ADT.scm}
+
 
 
 \subsubsection{インタプリタの持ち上げ（lifting）}
-図1.11 持ち上げ演算子,
 
-図1.12 値レベル
+\lstinputlisting[title=図1.11 持ち上げ演算子, label=fig1.11]{figure1.11_Lifting_operators.scm}
+
+
+\lstinputlisting[title=図1.12 値レベル, label=fig1.12]{figure1.12_Value_level.scm}
+
 
 \subsubsection{多階層（stratified）インタプリタ}
-図1.13 格納（Store）レベル,
 
-図1.14 環境レベル
+\lstinputlisting[title=図1.13 格納（Store）レベル, label=fig1.13]{figure1.13_Store_level.scm}
+
+\lstinputlisting[title=図1.14 環境レベル, label=fig1.14]{figure1.14_Environment_level.scm}
 
 
 \subsection{例示}
@@ -97,11 +120,12 @@ figures including sample codes: https://github.com/iHdkz/semantic-lego
 Lampingの単一化された、パラメータで指定されるシステム（unified system of parametrization）、
 再開機能（resumption）を用いて模型化された一つの並列言語
 を考えることになる。
-図1.15 レベル交渉演算子
 
-図1.16 部品的インタプリタ 一部
+\lstinputlisting[title=図1.15 レベル交渉演算子, label=fig1.15]{figure1.15_Level-negotiating_operators.scm}
 
-図1.17 部品的インタプリタ 二部
+\lstinputlisting[title=図1.16 部品的インタプリタ 第一部, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
+
+\lstinputlisting[title=図1.17 部品的インタプリタ 第二部, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
 
 \subsection{あるschemeに似た言語}
 我々は、環境（environment）、手続きの値呼び出し（call by value procedure）、格納（store）、継続（continuation）、非決定性基盤（nondeterminism）及び例外処理（error）の各機能を持つ言語のインタプリタを構成する。図1.18は完全なその言語の仕様、基本的な意味論及び例としての二つの式を示している。SL は、接頭式（prefix form）内において、自動的に基本的な意味論の記述が生成される。
@@ -109,8 +133,19 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 我々は、二つの段階を経てインタプリタを建設する。要点としては、
 
 \subsubsection{非決定性（nondeterministic）と継続（continuation）}
-図1.19 %let ソースの定義,
-図1.21 %amb ソースの定義
+
+\lstinputlisting[title=図1.19 \%let ソースの定義, label=fig1.19]{figure1.19_let_source_definition.scm}
+
+\lstinputlisting[title=図1.21 \%amb ソースの定義, label=fig1.21]{figure1.21_amb_source_definition.scm}
+
+\lstinputlisting[title=図1.22 \%ambバージョン1, label=fig1.22]{figure1.22_amb_version1.scm}
+
+\lstinputlisting[title=図1.23 \%ambバージョン2, label=fig1.23）の表現]{figure1.23_amb_version2.scm}
+
+\lstinputlisting[title=図1.24 \%ambバージョン3, label=fig1.24]{figure1.24_amb_version3.scm}
+
+\lstinputlisting[title=図1.25 単一化された、パラメータによって指定されるシステム, label=fig1.25]{figure1.25_Unified_system_of_parametrization.scm}
+
 \subsubsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
 \subsubsection{再開機能（Resumption）}
 
@@ -157,13 +192,18 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 関連事項 }
 \subsection{ 将来的事項 }
 \subsection{ 結論 }
-A　雑録
-    A.1    なぜschemeか
-    A.2    型についての重要な点
-    A.3    型付きの値 対 型無しの値
-    A.4    拡張可能な和と積
-B　コード
-    B.1    モナド変換子の定義
+
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\thesection-\arabic{subsection}}
+\setcounter{section}{0}
+
+\section{ 雑録 }
+\subsection{ なぜschemeか }
+\subsection{ 型についての重要な点 }
+\subsection{ 型付きの値 対 型無しの値 }
+\subsection{ 拡張可能な和と積 }
+\section{コード}
+\subsection{ モナド変換子の定義 }
 
 
 \end{document}  
