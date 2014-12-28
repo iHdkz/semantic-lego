@@ -34,31 +34,44 @@
 }
 \author{デビッド エスピノーザ(著)\\
 David Espinosa
+\and
+岩城 秀和（訳）
 }
 %\date{}							% Activate to display a given date or no date
+
 
 \begin{document}
 \maketitle
 
-
+\begin{center}
 Columbia University
+
 Department of Computer Science
+
 New York, NY 10027
+
 espinosa@cs.columbia.edu
+
 Draft March 20, 1995
+
 
 original: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.31.2885
 
 figures including sample codes: https://github.com/iHdkz/semantic-lego
+\end{center}
 
+\newpage
 \begin{abstract}
 　表示的意味論（denotational semantics）[Sch86]は、プログラミング言語を記述するための強力な枠組みの一つである。しかしながら、表示的意味論による記述にはモジュール性の欠如、すなわち、概念的には独立した筈である言語のある特徴的機能がその言語の他の特徴的機能の意味論に影響を与えてしまうという問題がある。我々は、モジュール性を持った表示的意味論の理論を示していくことによって、この問題への対処を行なった。
 　Mosses[Mos92]に従い、我々は（言語の）一つの意味論を、計算ADT（computation ADT）と言語ADT（language ADT; ADT, abstract data type: 抽象データ型）の二つの部分に分ける。計算ADTは、その言語にとっての基本的な意味論の構造を表現する。言語ADTは、文法によって記述されるものとしての実用的な言語の構成を表現する。我々は計算ADTを用いて言語ADTを定義することとなるが、（言語ADTの持つ性質はその組み立てられた言語ADTにみられるものだけではなく）現実には、多くの異なる計算ADT（の存在）によって、言語ADTは多様な形態を持つものである。
 \end{abstract}
+
+\newpage
 \tableofcontents
 
 \section*{謝辞}
 私の婚約者であるマリー Ngは、何年もの間わたってこのテーマの完成を根気強く待ってくれた。
+\newpage
 
 %\section{}
 %\subsection{}
@@ -149,6 +162,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsubsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
 \subsubsection{再開機能（Resumption）}
 
+\newpage
 \section{ モナド（Monads）}
 \subsection{基本的な圏論}
 \subsubsection{ 圏 }
@@ -162,14 +176,26 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsubsection{ 初段階目の形式化 }
 \subsubsection{ 二段階目の形式化 }
 \subsubsection{ 解釈 }
+
+\lstinputlisting[title=図2.1 モナドの例 パート１, label=fig2.1]{figure2.1_Example_monads_part1.scm}
+\lstinputlisting[title=図2.2 モナドの例 パート２, label=fig2.2]{figure2.2_Example_monads_part2.scm}
+
 \subsection{ モナド射（monad morphism） }
 \subsection{ 組み合わせないモナド }
+
+\lstinputlisting[title=図2.3 組み合わさないモナド, label=fig2.3]{figure2.3_Monads_dont_compose.scm}
+
 \subsection{ 組み合せたモナド }
 \subsection{ モナド変換子（monad transformers） }
 \subsubsection{  動機 }
+
+\lstinputlisting[title=図2.4 環境モナド変換子, label=fig2.4]{figure2.4_Environment_monad_transformer.scm}
+
 \subsubsection{  形式化 }
 \subsubsection{ モナド変換子のクラス }
 \subsubsection{ モナド変換子の組み合わせ }
+
+\newpage
 \section{ 持ち上げ（lifting）}
 \subsection{ 持ち上げ（lifting） }
 \subsubsection{  形式的持ち上げ }
@@ -177,6 +203,8 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 語用論（pragmatics） }
 \subsubsection{ 上昇型（bottom-up） }
 \subsubsection{ 下降型（top-down） }
+
+\newpage
 \section{ 多階層性（stratification）}
 \subsection{ 多階層モナド（stratified monads） }
 \subsection{ 多階層モナド変換子（stratified monad transformers） }
@@ -186,6 +214,8 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsubsection{ 継続変換子（continuation transformers） }
 \subsection{ 計算ADT }
 \subsection{ 言語ADT }
+
+\newpage
 \section{ 結論 }
 \subsection{ 持ち上げ 対 多階層性 }
 \subsection{ 極限 }
@@ -193,6 +223,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 将来的事項 }
 \subsection{ 結論 }
 
+\newpage
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\thesection-\arabic{subsection}}
 \setcounter{section}{0}
@@ -202,8 +233,33 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 型についての重要な点 }
 \subsection{ 型付きの値 対 型無しの値 }
 \subsection{ 拡張可能な和と積 }
+
+\newpage
 \section{コード}
 \subsection{ モナド変換子の定義 }
+\newpage
+\lstinputlisting[title=図B.1 環境変換子, label=figB.1]{figureB.1_Environment_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.2 例外変換子, label=figB.2]{figureB.2_Exception_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.3 継続変換子, label=figB.3]{figureB.3_Continuation_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.4 ストア変換子, label=figB.4]{figureB.4_Store_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.5 第一持ち上げ変換子, label=figB.5]{figureB.5_First_lifting_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.6 第二持ち上げ変換子, label=figB.6]{figureB.6_Second_lifting_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.7 リスト変換子, label=figB.7]{figureB.7_List_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.8 モノイド変換子, label=figB.8]{figureB.8_Monoid_transformer.scm}
+\newpage
+\lstinputlisting[title=図B.9 再開機能変換子, label=figb.9]{figureB.9_Resumption_transformer.scm}
 
+
+
+
+
+\section{参考文献}
 
 \end{document}  
