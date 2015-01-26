@@ -6,6 +6,17 @@
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{verbatim}
+
+\usepackage{endnotes}
+%\let\footnote=\endnote
+\renewcommand{\theendnote}{訳注\arabic{endnote})}
+\renewcommand{\notesname}{訳注}
+\usepackage{etoolbox}
+\patchcmd{\enoteformat}{1.8em}{0pt}{}{}
+
 
 \usepackage{color}
 \usepackage{listings}
@@ -20,25 +31,30 @@
   %identifierstyle={\color{colID}},
   stringstyle=\color{blue},
   tabsize=2,
-  frame=single,
-  numbers=left,
+  %frame=single,
+  %numbers=left,
   numberstyle={\ttfamily\small},
   breaklines=true,%折り返し
   %backgroundcolor={\color[gray]{.95}},
-  captionpos=b
+  captionpos=b,%
+  numbersep=1zw,%
 }
 
+%\renewcommand\thefootnote{訳注\arabic{footnote}}
+
 \setcounter{tocdepth}{3}
-\title{意味論的レゴ\\
+\title{意味論的レゴ \\
 （Semantic Lego）
 }
 \author{デビッド エスピノーザ(著)\\
-David Espinosa
-\and
-岩城 秀和（訳）
+David Espinosa\\
+\\
+\begin{small}
+岩城 秀和(訳)
+\end{small}
 }
-%\date{}							% Activate to display a given date or no date
-
+\date{}							% Activate to display a given date or no date
+%\time{}
 
 \begin{document}
 \maketitle
@@ -56,9 +72,10 @@ Draft March 20, 1995
 
 
 original: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.31.2885
-
-figures including sample codes: https://github.com/iHdkz/semantic-lego
 \end{center}
+
+Translator's figures including sample codes: https://github.com/iHdkz/semantic-lego
+
 
 \newpage
 \begin{abstract}
@@ -70,60 +87,198 @@ figures including sample codes: https://github.com/iHdkz/semantic-lego
 \tableofcontents
 
 \section*{謝辞}
-私の婚約者であるマリー Ngは、何年もの間わたってこのテーマの完成を根気強く待ってくれた。
+私の婚約者であるMary Ngは、数年間に渡ってこの論文のために忍耐強く待ってくれた。私は彼女なしでもそれを成すことができたでしょうが、それはずっと悪いものだったろうし、既に悪いものだった。Maryは大学院における苦もない最も嬉しい結果である。
+
+私の母であるJoanne Espinosaは２８年間に渡る偉大さを持っている。ありがとう、ママ。
+
+ジェラルド J サスマン（Gerald J. Sussman）、私は彼を１０年前から知っていた、は常に一つの刺激であり続けた。彼の学生の間における彼の信用は決して落ちなかったし、彼と話をすることは、一瞬の間だけかもしれないが、あなたは何でもできるのだよと信じさせた。より物質的な面では、Jerryは私が去年一年間（またはそれ以上）彼の研究室に入り浸り状態になるのを許してくれた。
+
+コロンビア大における私の指導教官であるSal Stolfoは、私の大学院キャリアの中で一人の極端に寛容な監視者であり続けた。私は指導教官としてSalを多少なりとも選択した、その理由は彼がいい人だったからだ。注目すべきこととして、彼は今もそうである。
+
+私の防衛委員会、Gail Kaiser、Ken Ross、そしてMukesh Dalalは、コロンビア生活から私が抜け出すのを助けてくれた。
+Albert Greenbergは、AT＆Tでの何回かの夏の間における職なしの状態から私を助けてくれた。『博士研究員を雇うために（出されている）論文の少ない仕事を取ってきた』から、彼はまず私を雇ってくれた。私たちは、並列フーリエ変換をうまくやり遂げることと通信ネットワークのモデルを解決することを楽しんでいた。あれとモナドの間のつながりは明白な、いや、現在においては、曖昧なようだ。
+
+AT＆Tの博士奨学金は私を５年間支えてくれた、そしてそれらは5年間では無理だと私に懇願させることさえなかった。ただ、残念ながら、それらが私に与えたもののすべてはお金であった（Albertにも関わらず）。
+
+Phil Chan、Mauricio Hernandez、Sushil Da Silva、Paul Michelman、そしてBulent Yener達はコロンビアで付き合ってくれてありがとう。同様にMichael Blair、Koniaris、Natalya Cohen、Raj Surati、そしてMITの四階フロアにいるの他のすべての人たち。
+
+また、私の音楽仲間、Joseph Briggs、Kerstin Kup、BrianとKaren Neal、Lois Winter、そしてJohelen Carletonについても感謝する。
+Albert Meyerは、多くの場面で非常に愉快だった。意味論の内側と外側について知っている誰かと、その歴史の多くに沿って話をすることは素晴らしいことです。あなたはとてもじゃないが論文からあれを得ることはできない。
+
+エウジニオ モッジ（Eugenio Moggi）は、（私のこの論文に）不可欠な彼の仕事に対して私の感謝を受けるに値する。私とモッジの関係が個人的というよりも科学的であるということから（特に私が彼に会ったことがないということから）、Albertはモッジをここに含めることに異議を唱えた。Albertは、論理学者として、彼が見つけることができる些細なことにはなんでもこだわる。
+\newpage
+Jonathan Reesは私にモナドと圏論を紹介してくれた。私たちは後々一緒にもっと仕事ができるだろうと期待しています。今、彼は英国でバグの追いかけをしてしまっている。
+
+Bill Rozas は私を多くの、多くの場面で助けて出してくれたそして意味論とアーキテクチャーについて議論することでいつも楽しませてくれた。Bill は信じられないほど気前がよく、そして私に、私たちがそうでないときでさえ、私たちは対等だと思わせてくれた。私はこの特性をもつ彼が妬ましい。
+
+Carl Gunter は助言と援助の大きな源であった。彼と最初に会ったのは1992年のLFPの時で、彼は穏やかな話し方をする男だった、激論となった意味論に関する議論が終わった後に、「実は、現実的な答えは・・・」と言うような。彼の説明と彼の本[Gun92]はクリスタルのように明瞭だ。
+
+Charles Leiserson は、一人の見習いとしてMITに通うための納得する証拠を提出してくれた、私がBrownを訪れた時にそこで一番興味深い人物であるとしてくれることによって。彼は私にアルゴリズムを教えるという偉大な仕事をしたが、思ったとおりその分野はなんにせよ非常に簡単だった。Charlesはまさに何についてでも形式化するという驚くべき技能を持っている。
+
+Franklyn Turbakと私はここ2年間インタプリタと言語いじりを非常に楽しんでいた。Lynに会うまでずっと、私は形式意味論は、読者を実際の内容を持った領域について考えることをわざと混乱させるための無意味なごちゃ混ぜのギリシャ文字だと思っていた。私の現在の見解は、この論文を読むことによってあなたが見つけ出さなくてはならない。
 \newpage
 
 %\section{}
 %\subsection{}
 
-\section{導入}
+\section{はじめに}
+表示的意味論はプログラミング言語を定義するための強力なフレームワークである。それを使用することで、我々は簡潔かつ明確な言語を記述し、実際のプログラムを実行するインタプリタを構築することができる。特にその力を考慮するにあたって、理解することが難しい理論ではない。
+
+ただ残念ながら、表示的な記述を主に読んだり書いたりすることは困難である、なぜならそれら記述にはモジュール性が欠如しているためである。言語のそれぞれの構成概念は、言語の基礎を形成している意味論的に組み立てられたブロックのすべてと相互作用をする。例えば、もし我々がストアを用いて割り当て（assignment）を実現するならば、すべての言語の構成概念は、割り当てそのものではなくそのストアと情報やりとりをしなければならない。この相互作用の複雑さは表示的な記述をより難解にする。
+
+この論文では表示的記述のモジュラーな書き方を提示するが、そのモジュラーな書き方は、構成要素からインタプリタを組み立てるSchemeプログラムであるSemantic Lego\footnote{レゴ（LEGO)は登録商標です。}(SL)として自動化した。本質的に、SLは言語を記述するための言語です。この論文は、いくつかの重要な貢献をする：
+\begin{itemize}
+\item 私たちは、抽象データ型としてのプログラミング言語のアイディアを再導入する。このスタイルで書かれたインタプリタは通常よりも短く明確である。
+
+\item 私たちは、より多くの人たちがアクセスすることができるように、単純な言葉で持ち上げのMoggiの理論を言い直した。
+
+\item 私たちは持ち上げよりもより強力でより単純な階層（stratification）の新理論を説明するこの理論は意味論的代数についてのMossesの仕事に構造とモジュラー性を追加することで拡張したものである。
+
+\item 我々はモジュラーインタプリタの二つの書き方を示す、それらはそれぞれ持ち上げ(lifting)と階層(stratification)に基づいている。
+
+\item 私たちはSemantic Lego、モジュラーインタプリタの構文の集まりで階層に基づいたものを提示し、幾つかの例を与える。
+\end{itemize}
+この論文は幾つかの重要な結果を持つ。
+\begin{itemize}
+\item 私たちは理解し、議論し、そして言語を分解することによってより良い言語教えることができる。我々はいくつかの単純な機能の組み合わせとして、それを見るまで例えば、並列処理のresumptionsモデルは、複雑な表示されます。
+
+\item 私たちは、新しい言語を試すことができる。SLは、設計者に高次元の問題を自由に考えさせるようにしたまま、表示的記述に関連した管理作業を処理する。SLの基礎となる理論は、新しい言語の構成概念を提案する助けにもなる。
+\end{itemize}
+以下の話は、SLの力を示すものである。MITの大学院のプログラミング言語コースのための三人のティーチングアシスタント（TA）は、状態の存在する場合における洗練された制御構文（shift）の意味を記述する必要があった。彼らは制御と状態を独立して理解してはいるものの、問題の集まりを区分する以前に、適合するこれら特徴の間の相互作用を見つけ出すことができなかった。
+
+SLを用いることで、1分足らずで私は二つの解法を作り出した。事実、SLは完全なインタプリタを形成しており、構文を要求される単なる一つのものではない。もう一つの意味論的完全なものである、例外(error)を追加することもまた簡単である。SLは徹底的にテストされているので、もしそれらがうまく形式付けられているかどうかを確認するための定義を試してみる必要はない。
+
+この論文は次のように構成されている。３章は持ち上げ(lifting)について議論し、第４章では階層(stratification)について議論する。第5章はそれら二つのアプローチを比較し、以前のものを再検討する。付録Aにおいてはこの論文に接線方向に関連する話題を取り上げる。
+
+私たちは表示的意味論と関数型プログラミングについての初歩的な理解を前提としている、さらなる背景については[Wad92]を参照。すべての例とコードの断片はScheme [CR91] で書かれている。
+
+この章の残りでは、抽象データ型としての言語を提示し、通常のインタプリタの書き方はモジュラーではないということを実演し、モジュラーインタプリタの二つの書き方について示し、そして例題の集まりとともにSLを練習していく。
+
 \subsection{ ADT（抽象データ型）としての言語}
+我々は[ASS85]のスタイルの単純なインタプリタから始め、できるだけ多くの構文の問題を除き、そのインタプリタを本質的なものへと単純化する。このアプローチは、(アベルソン(Abelson)とサスマン(Sussman)の意味での)『メタ言語的抽象化(metalinguistic abstraction)』は通常の抽象化とは違いがないことを示している。言い換えれば、新しい言語を形成するために言語の『外に出る』必要はない。それはまたインタプリタの記述を短くし、構文と意味の違いをよりはっきりさせる合理化されたインタプリタの文体を提供する。
+
+図で表されているのは、純粋関数型言語のための単純なインタプリです。
+
+1.1 1.3 その典型的な使用は
+
+\begin{lstlisting}
 (compute '((lambda x (* x x)) 9))
 => 81
+\end{lstlisting}
 
+\begin{lstlisting}
 (compute (%call (%lambda 'x (%* (%var 'x) (%var 'x))) (%num 9)))
 
 => 81
+\end{lstlisting}
 
+\begin{lstlisting}
+(define ((f a) b) ...)
+\end{lstlisting}
+
+\newpage
 \lstinputlisting[title={図1.1 インタプリタ},label=fig1.1]{figure1.1_Interpreter.scm}
+\newpage
 
 \lstinputlisting[title=図1.2 環境ADT（環境抽象データ型）, label=fig1.2]{figure1.2_Environment_ADT.scm}
+\begin{lstlisting}
+(define f (lambda (a) (lambda (b) ...)))
+\end{lstlisting}
 
+$$
+Den = Env \rightarrow Val
+$$
+
+\newpage
 \lstinputlisting[title=図1.3 述語と選択子（selector）の表現, label=fig1.3]{figure1.3_Expression_predicates_and_selectors.scm}
+\newpage
 
 \lstinputlisting[title=図1.4 構築子（constructor；コンストラクタ, label=fig1.4）の表現]{figure1.4_Expression_constructors.scm}
 
+\newpage
 \lstinputlisting[title=図1.6 表示的（意味論的）な実装, label=fig1.6]{figure1.6_Denotational_implementation.scm}
+\newpage
+
 
 \lstinputlisting[title=図1.7 構文から意味への写像, label=fig1.7]{figure1.7_Map_from_syntax_to_semantics.scm}
 
+\begin{lstlisting}
+(%+ (%num 1) (%num 2))
+\end{lstlisting}
+
 \subsection{単層（monolithic）インタプリタ}
+
+$$
+Den = Env \rightarrow Sto \rightarrow Val \times Sto
+$$
+
+\begin{lstlisting}
+(define (((%num n) env) sto)
+  (pair n sto))
+\end{lstlisting}
+
+\begin{lstlisting}
+(define ((%num n) env)
+  n)
+\end{lstlisting}
+
 \subsection{部品的（modular）インタプリタ}
 
+$$
+Den = Env \rightarrow Sto \rightarrow Val \times Sto
+$$
+
+$$
+\begin{aligned}
+E &= Env \rightarrow Sto \rightarrow Val \times Sto \\
+S &= Sto \rightarrow Val \times Sto \\
+V &= Val \\
+\end{aligned}
+$$
+\newpage
 \lstinputlisting[title=図1.8 単層インタプリタ 一部 , label=fig1.8]{figure1.8_Monolithic_interpreter_part1.scm}
-
-
+\newpage
 \lstinputlisting[title=図1.9 単層インタプリタ 二部, label=fig1.9]{figure1.9_Monolithic_interpreter_part2.scm}
-
+\newpage
 
 \lstinputlisting[title=図1.10 格納（Store）ADT, label=fig1.10]{figure1.10_Store_ADT.scm}
 
+\begin{lstlisting}
+(define (unit a)
+  (list a))
 
+(define (bind tb f)
+  (flatten (map f tb)))
+\end{lstlisting}
+
+\begin{lstlisting}
+(define (square-list l)
+  (bind l (lambda (n) (unit (square n)))))
+\end{lstlisting}
 
 \subsubsection{インタプリタの持ち上げ（lifting）}
+$$
+f : X \times A \times A \rightarrow A
+$$
 
+$$
+f' : X \times B \times B \rightarrow B
+$$
+
+\newpage
 \lstinputlisting[title=図1.11 持ち上げ演算子, label=fig1.11]{figure1.11_Lifting_operators.scm}
-
+\newpage
 
 \lstinputlisting[title=図1.12 値レベル, label=fig1.12]{figure1.12_Value_level.scm}
 
 
 \subsubsection{多階層（stratified）インタプリタ}
 
+\newpage
 \lstinputlisting[title=図1.13 格納（Store）レベル, label=fig1.13]{figure1.13_Store_level.scm}
-
+\newpage
 \lstinputlisting[title=図1.14 環境レベル, label=fig1.14]{figure1.14_Environment_level.scm}
-
+\newpage
 
 \subsection{例示}
 この節における例示はSEMANTIC LEGO（以後 SL と略記）の入力/出力の振る舞いを示しており、次の二つの章はその背後の仕組みを説明する。我々はそこで、
@@ -134,11 +289,13 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 再開機能（resumption）を用いて模型化された一つの並列言語
 を考えることになる。
 
+\newpage
 \lstinputlisting[title=図1.15 レベル交渉演算子, label=fig1.15]{figure1.15_Level-negotiating_operators.scm}
-
+\newpage
 \lstinputlisting[title=図1.16 部品的インタプリタ 第一部, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
-
+\newpage
 \lstinputlisting[title=図1.17 部品的インタプリタ 第二部, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
+\newpage
 
 \subsection{あるschemeに似た言語}
 我々は、環境（environment）、手続きの値呼び出し（call by value procedure）、格納（store）、継続（continuation）、非決定性基盤（nondeterminism）及び例外処理（error）の各機能を持つ言語のインタプリタを構成する。図1.18は完全なその言語の仕様、基本的な意味論及び例としての二つの式を示している。SL は、接頭式（prefix form）内において、自動的に基本的な意味論の記述が生成される。
@@ -162,38 +319,289 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsubsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
 \subsubsection{再開機能（Resumption）}
 
+
 \newpage
 \section{ モナド（Monads）}
+この章では、我々はまず幾つかの基本的な圏論を提示し、モナド、モナドの間の射、モナドの組み合わせそしてモナド変換子について議論する。これはあなたがモナドについて常に知りたがったことすべてのように聞こえるかもしれないが、現実にはその表面をかろうじてひっかいているものだ。より詳細な情報については[BW85,Mog89a]を参照のこと。
+
+モナドは１９９０年代の関数型プログラミングコミュニティで「熱い話題」だったかもしれないが、現実の「モナドの激増」は、それらがまず考え出された１９６０年代の間に圏論と代数的トポロジーのコミュニティの中で発生した。私は自分自身１９９０年代基準でかなりよい「モナドハッカー」だと考えるが、１９６０年代の一覧表に乗ってさえいないということを認めなくてはならない。たとえそうであっても、私は計算機科学者が、「モナド、、これらは状態についてのものじゃないのかい？」と尋ねることを聞くことがほとんど無いことに気づいた。それは、「代数、、それは１＋１＝２についてのものなんじゃないの？」と聞くようなものだ。
+
 \subsection{基本的な圏論}
+この節では、我々は圏論における基本的な概念を定義し、圏論と関数型プログラミングとの間の関係性、そして幾つかの参考文献について述べる。
+
 \subsubsection{ 圏 }
+圏は型付き関数の合成を抽象化する。一つの圏は、対象（これらは型である）の集合、射（これらは関数である）の集合、そして射の合成演算子からなる。各々の射は、一つの対象（ドメイン）からもう一つの対象（余ドメイン）への方向を指す。もし f : A → B かつ g : B → C が二つの射であるならば、g・f : A → C はそれらの合成である。他とは区別された各々の対象からそれ自身への恒等射が存在する。合成は左単位則、右単位則として恒等射に関して結合的でなくてはならない。
+
+我々が用いる基本的な圏は、我々が意味論や関数プログラミングをしているかどうかに左右されるものだ。意味論において、我々は適合する領域理論（domain theory）を用いる（[Gun92]を参照）。関数型プログラミングにおいては、我々は、この場合においては、Scheme[CR91]の型と関数を使用する。Schemeは明示的には型を持っていないため、我々はそれらを我々自身で想像しなくてはならない。
+圏においては、合成は、適用よりも主たるものである。関数型プログラミングにおいては、組み合わせ言語でプログラムを行わない限りは、その逆である。この視点の変化は実際におけるいくつかの問題をもたらす。我々は最も便利な方を使用する。
 \subsubsection{ 関手 }
+圏論において、我々は対象のクラスを定義するときはいつでも、我々はそれらの間の適切な写像も定義する、それ故に、それらは一つの圏となる。このような理由から、これから我々は圏の間の写像を考える。
+圏 C と D の間の関数 T は C の対象から D の対象への写像である。自己関数とは、圏からその圏自身への関数である。我々の場合、一つの自己関数は型構築子である。それは他の型から一つの型を構築する。例えば、T(A) = List(A) は我々の好きな任意の型のリストを構築する。我々の用いる他の型構築子は、関数空間（→）、積（×）、和（+）である。
+関数は圏の間の写像として不十分である、なぜならば射についての作用がないからである。我々は関手 T : C → D を、これもまた T と呼ばれる以下のような C の射から D の射に移す関数 mapT と同様となるように定義する。
+\begin{lstlisting}
+;; mapT : (A -> B) -> (T(A) -> T(B))
+
+(mapT id)        = id
+(mapT (oC g f)   = (oD (mapT g) (mapT f))
+\end{lstlisting}
+自己関手は圏からその圏自身への関手である、だから我々はただ一つの合成演算子しか必要としない。例えば、リストに関する普通の map 関数は T(A) = List(A) を自己関手にする。
+
+\begin{lstlisting}
+;; T(A) = A × A
+
+(define ((map f) ta)
+  (pair (f (left ta)) (f (right ta))))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; T(A) = Env -> A
+
+(define (((map f) ta) env)
+  (f (ta env)))
+\end{lstlisting}
+
 \subsubsection{ 自然変換 }
 \subsubsection{ 始対象の性質（initiality）}
 \subsubsection{ 双対性 }
 \subsubsection{ 圏論と関数型プログラミング }
-\subsubsection{ 参照 }
+\subsubsection{ 参考文献 }
 \subsection{ モナド }
-\subsubsection{ 初段階目の形式化 }
-\subsubsection{ 二段階目の形式化 }
+この節においては、我々はモナドについて二つの定式化を提示し、それらの背後の洞察について議論する。モナドは付加的な構造を伴った関手である、同様にして、関手は付加的な構造を持った関数である。
+\subsubsection{ 一つ目の定式化 }
+モナドは、自己関手と二つの自然変換
+
+$$\verb|unit| : A \rightarrow T(A) $$
+$$\verb|join| : T(T(A)) \rightarrow T(A)$$
+
+からなる三つ組\footnote{モナドはまたトリプル（triples）とも呼ばれる。} (T, \verb|unit|, \verb|join|) である。ここで、\verb|unit|は恒等関手から$T$へ自然であり、値は$T$へ写される。例えば、リストモナド用の\verb|unit|は\verb|list|である。\verb|unit|は入射的（injective）であることを要請されないが、その代わり、it actually is in most applications. \verb|join|は$ T\circ T$から$T$へ自然であり、多重の$T$を一重の$T$へ平らにする。リストモナド用の\verb|join|は\verb|flatten|である。
+
+ 環境モナド$T(A) = Env \rightarrow A$用の\verb|unit|と\verb|join|は、
+\begin{lstlisting}
+(define ((unit a) env)
+  a)  
+
+(define ((join tta) env)
+  ((tta env) env))
+\end{lstlisting}
+\verb|unit|と\verb|join|は（以下の）付加的な性質を満たさなくてはならない
+$$
+\begin{array}{lll}
+\verb|(o join unit) |             &\verb| = id|                   & : T(A) \rightarrow T(A) \\
+\verb|(o join (map unit))  |  &\verb| = id|                   & : T(A) \rightarrow T(A) \\
+\verb|(o join (map join))  |  &\verb| = (o join join) |  &: T(T(T(A))) \rightarrow T(A) \\
+\end{array}
+$$
+この定式化は修正されたモノイドとしてのモナド[Mac71]を示している\endnote{ここはおかしい。マックレーンの主張するモノイドのアナロジーとしてのモナドの話と著者の例示しているものはズレている。}（そのため、そのような名称となっている）なお、ここで\verb|unit|は恒等元（identity）であり\verb|join|はモノイド演算子である。上記の法則は、左・右単位則と結合規則である。
+
+表2.1は意味論において使用される幾つかの共通したモナドの型構築子を示している。我々は次の節でそれらの\verb|unit|と\verb|join|演算子を記述する（二つ目の定式化を経過した上で）。
+\subsubsection{ 二つ目の定式化 }
 \subsubsection{ 解釈 }
 
+\newpage
 \lstinputlisting[title=図2.1 モナドの例 パート１, label=fig2.1]{figure2.1_Example_monads_part1.scm}
+\newpage
 \lstinputlisting[title=図2.2 モナドの例 パート２, label=fig2.2]{figure2.2_Example_monads_part2.scm}
+\newpage
 
 \subsection{ モナド射（monad morphism） }
+$$
+\verb|mapK| : (A \rightarrow S(B)) \rightarrow (A \rightarrow T(B))
+$$
+\begin{lstlisting}
+;; f : A →S(B)
+;; g : B →S(C)
+
+(mapK idS)       = idT   
+(mapK (oS g f))  = (oT (mapK g) (mapK f))
+\end{lstlisting}
+
+\begin{lstlisting}
+(K (unitS a))    = (unitT a)
+(K (bindS sa f)) = (bindT (K sa) (o K f))
+\end{lstlisting}
+
+\begin{lstlisting}
+(reverse (list a))         = (list a)
+(reverse (append-map f l)) = (append-map (o reverse f) (reverse l))
+\end{lstlisting}
+
 \subsection{ 組み合わせないモナド }
 
+\newpage
 \lstinputlisting[title=図2.3 組み合わさないモナド, label=fig2.3]{figure2.3_Monads_dont_compose.scm}
 
 \subsection{ 組み合せたモナド }
+$$
+\verb|swap| : TS \rightarrow ST
+$$
+
+$$
+\begin{array}{l}
+ST = S \circ T \\
+\verb|map = mapS o mapT|
+\\
+\\
+\begin{array}{l}
+(C1) \verb|unitST = unitS o unitT = mapS(unitT) o unitS| \\
+\\
+(C2) \verb|joinST o mapST(unitS) = mapS(joinT)| \\
+(C3) \verb|joinST o mapS(unitT) = joinS| \\
+\end{array}
+\\
+\\
+\begin{array}{ll}
+(C4) \verb|joinS o mapS(joinS)| 				& \verb|= joinST o joinS| \\
+(C5)  \verb|joinST o mapST(mapS(joinT))| 	& \verb|= mapS(joinT) o joinST|
+\end{array}
+
+\end{array}
+$$
+
 \subsection{ モナド変換子（monad transformers） }
 \subsubsection{  動機 }
+$$
+F(T)(A) = Env \rightarrow T(A)
+$$
 
+$$
+\verb|ftfta| : Env \rightarrow T(Env \rightarrow T(A))
+$$
+
+$$
+Den(A) = Sto \rightarrow List(A \times Sto)
+$$
+
+\begin{lstlisting}
+(define (unit a)
+  (lambda (sto) (list (pair a sto))))
+\end{lstlisting}
+\newpage
 \lstinputlisting[title=図2.4 環境モナド変換子, label=fig2.4]{figure2.4_Environment_monad_transformer.scm}
 
+\begin{lstlisting}
+(define (unitS a)
+  (lambda (sto) (pair a sto)))
+
+(define (unitL a)
+  (list a)) 
+\end{lstlisting}
+
+\begin{lstlisting}
+(define (unitT a)
+  (pair a (empty-store))
+  \end{lstlisting}
+
 \subsubsection{  形式化 }
+\begin{lstlisting}
+(define (unitT a)
+  (pair a (empty-store))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; F(T)(A) = List(T(A))
+
+(define ((mapF K) fta)
+  (map K fta))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; F(T)(A) = Env -> T(A)
+
+;; unitFT : A -> F(T)(A)
+;; bindFT : F(T)(A) x (A -> F(T)(B)) -> F(T)(B)
+
+(define (unitFT a)
+  (lambda (env) (unitT a)))
+
+(define (bindFT fta f)
+  (lambda (env)
+    (bindT (fta env)
+           (lambda (a)
+             ((f a) env)))))
+\end{lstlisting}
+
+\begin{lstlisting}  
+;; F(T)(A) = Env -> T(A)
+
+;; mapF : (S(A) -> T(A)) -> (F(S)(A) -> F(T)(A))
+
+(define (((mapF K) fsa) env)
+  (K (fsa env)))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; F(T)(A) = Env -> T(A)
+
+;; unitF : T(A) -> F(T)(A)
+;; bindF : F(T)(A) x (T(A) -> F(T)(B)) -> F(T)(B)
+
+(define (unitF ta)
+  (lambda (env) ta))
+
+(define (bindF fta f)
+  (lambda (env)
+    ((f (fta env)) env)))
+\end{lstlisting}
+
 \subsubsection{ モナド変換子のクラス }
+$$
+F(T)(A) = Env \rightarrow T(A)
+$$
+
+$$
+F(T)(A) = T(Env \rightarrow A)
+$$
+
+\begin{lstlisting}
+(define (bindFT fta f)
+  (bindT fta
+         (lambda (env->a)
+           ...)))
+
+(define (bindFT fta f)
+  (unitT
+    (lambda (env)
+      (bindT fta                 ; ***
+             (lambda (env->a)
+               (env->a env))))))
+\end{lstlisting}
+
+\begin{table}[htb]
+\label{table2.5}
+\caption{表2.5 Classificationの例}
+  \begin{tabular}{| l | l | l |} \hline
+    名称   & 型 $F(T)(A)$ = & Classification  \\ \hline \hline
+    非決定性     & $T(List A)$ & 底  \\
+    例外            & $T(A + X)$ & 底  \\
+    モノイド     & $T(A \times X)$ & 底  \\
+    持ち上げ１ & $T(1 \rightarrow A)$ & 底  \\
+    持ち上げ２ & $1 \rightarrow T(A) $ & 頂  \\
+    環境            & $Env \rightarrow T(A) $ & 頂  \\ 
+    ストア        &  $Sto \rightarrow T(A \times Sto) $ & 周辺  \\ \hline
+  \end{tabular}
+\end{table}
 \subsubsection{ モナド変換子の組み合わせ }
+
+\begin{lstlisting}
+(compose
+ environments
+ stores
+ continuations
+ nondeterminism
+ exceptions))
+\end{lstlisting}
+ 
+ $$
+\begin{array}{lll}
+F(T)(A) = Env &\rightarrow 	& 				 \\
+			   &Sto 			&\rightarrow  	 \\
+			   &				& (A \times  Sto \rightarrow List(Ans + Err)) \rightarrow \\
+			   &				&				 List(Ans + Err))
+\end{array}
+ $$
+ 
+\theendnotes
+\setcounter{endnote}{0}
 
 \newpage
 \section{ 持ち上げ（lifting）}
@@ -203,6 +611,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 語用論（pragmatics） }
 \subsubsection{ 上昇型（bottom-up） }
 \subsubsection{ 下降型（top-down） }
+
 
 \newpage
 \section{ 多階層性（stratification）}
@@ -215,6 +624,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 計算ADT }
 \subsection{ 言語ADT }
 
+
 \newpage
 \section{ 結論 }
 \subsection{ 持ち上げ 対 多階層性 }
@@ -222,6 +632,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 関連事項 }
 \subsection{ 将来的事項 }
 \subsection{ 結論 }
+
 
 \newpage
 \renewcommand{\thesection}{\Alph{section}}
@@ -233,6 +644,7 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \subsection{ 型についての重要な点 }
 \subsection{ 型付きの値 対 型無しの値 }
 \subsection{ 拡張可能な和と積 }
+
 
 \newpage
 \section{コード}
@@ -255,9 +667,6 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 \lstinputlisting[title=図B.8 モノイド変換子, label=figB.8]{figureB.8_Monoid_transformer.scm}
 \newpage
 \lstinputlisting[title=図B.9 再開機能変換子, label=figb.9]{figureB.9_Resumption_transformer.scm}
-
-
-
 
 
 \section{参考文献}
