@@ -2,61 +2,61 @@
 \contentsline {section}{\numberline {1.1} ADT（抽象データ型）としての言語}{9}
 \contentsline {section}{\numberline {1.2}モノリシックインタプリタ}{17}
 \contentsline {section}{\numberline {1.3}モジュラーインタプリタ}{18}
-\contentsline {section}{\numberline {1.4}インタプリタを持ち上げる（lifting）}{22}
-\contentsline {section}{\numberline {1.5}階層化（stratified）インタプリタ}{25}
-\contentsline {section}{\numberline {1.6}例示}{30}
-\contentsline {section}{\numberline {1.7}あるschemeに似た言語}{34}
-\contentsline {section}{\numberline {1.8}非決定性（nondeterministic）と継続（continuation）}{34}
-\contentsline {section}{\numberline {1.9}単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}{38}
-\contentsline {section}{\numberline {1.10}再開機能（Resumption）}{38}
+\contentsline {subsection}{\numberline {1.3.1}インタプリタを持ち上げる（lifting）}{22}
+\contentsline {subsection}{\numberline {1.3.2}階層化（stratified）インタプリタ}{25}
+\contentsline {section}{\numberline {1.4}例}{30}
+\contentsline {subsection}{\numberline {1.4.1}あるschemeに似た言語}{34}
+\contentsline {subsection}{\numberline {1.4.2}非決定性（nondeterministic）と継続（continuation）}{34}
+\contentsline {subsection}{\numberline {1.4.3}単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}{38}
+\contentsline {subsection}{\numberline {1.4.4}再開機能（Resumption）}{38}
 \contentsline {chapter}{\numberline {第2章}モナド}{39}
 \contentsline {section}{\numberline {2.1}基本的な圏論}{39}
-\contentsline {section}{\numberline {2.2} 圏 }{39}
-\contentsline {section}{\numberline {2.3} 関手 }{40}
-\contentsline {section}{\numberline {2.4} 自然変換 }{41}
-\contentsline {section}{\numberline {2.5} 始対象の性質（initiality）}{41}
-\contentsline {section}{\numberline {2.6} 双対性 }{42}
-\contentsline {section}{\numberline {2.7} 圏論と関数型プログラミング }{42}
-\contentsline {section}{\numberline {2.8} 参考文献 }{42}
-\contentsline {section}{\numberline {2.9} モナド }{43}
-\contentsline {section}{\numberline {2.10} 一つ目の定式化 }{43}
-\contentsline {section}{\numberline {2.11} 二つ目の定式化 }{44}
-\contentsline {section}{\numberline {2.12} 解釈 }{44}
-\contentsline {section}{\numberline {2.13} モナド射（monad morphism） }{48}
-\contentsline {section}{\numberline {2.14} 組み合わせないモナド }{48}
-\contentsline {section}{\numberline {2.15} 組み合せたモナド }{49}
-\contentsline {section}{\numberline {2.16} モナド変換子（monad transformers） }{49}
-\contentsline {section}{\numberline {2.17} 動機 }{49}
-\contentsline {section}{\numberline {2.18} 形式化 }{51}
-\contentsline {section}{\numberline {2.19} モナド変換子のクラス }{53}
-\contentsline {section}{\numberline {2.20} モナド変換子の組み合わせ }{53}
+\contentsline {subsection}{\numberline {2.1.1} 圏 }{39}
+\contentsline {subsection}{\numberline {2.1.2} 関手 }{40}
+\contentsline {subsection}{\numberline {2.1.3} 自然変換 }{41}
+\contentsline {subsection}{\numberline {2.1.4} 始対象の性質（initiality）}{41}
+\contentsline {subsection}{\numberline {2.1.5} 双対性 }{42}
+\contentsline {subsection}{\numberline {2.1.6} 圏論と関数型プログラミング }{42}
+\contentsline {subsection}{\numberline {2.1.7} 参考文献 }{42}
+\contentsline {section}{\numberline {2.2} モナド }{43}
+\contentsline {subsection}{\numberline {2.2.1} 一つ目の定式化 }{43}
+\contentsline {subsection}{\numberline {2.2.2} 二つ目の定式化 }{44}
+\contentsline {subsection}{\numberline {2.2.3} 解釈 }{44}
+\contentsline {section}{\numberline {2.3} モナド射（monad morphism） }{48}
+\contentsline {section}{\numberline {2.4} 組み合わせないモナド }{48}
+\contentsline {section}{\numberline {2.5} 組み合せたモナド }{49}
+\contentsline {section}{\numberline {2.6} モナド変換子（monad transformers） }{49}
+\contentsline {subsection}{\numberline {2.6.1} 動機 }{49}
+\contentsline {subsection}{\numberline {2.6.2} 形式化 }{51}
+\contentsline {subsection}{\numberline {2.6.3} モナド変換子のクラス }{53}
+\contentsline {subsection}{\numberline {2.6.4} モナド変換子の組み合わせ }{53}
 \contentsline {chapter}{\numberline {第3章} 持ち上げ（lifting）}{55}
 \contentsline {section}{\numberline {3.1} 持ち上げ（lifting） }{55}
-\contentsline {section}{\numberline {3.2} 形式的持ち上げ }{55}
-\contentsline {section}{\numberline {3.3} モナドと持ち上げ }{57}
-\contentsline {section}{\numberline {3.4} 語用論（pragmatics） }{58}
-\contentsline {section}{\numberline {3.5} ボトムアップ }{58}
-\contentsline {section}{\numberline {3.6} トップダウン }{58}
+\contentsline {subsection}{\numberline {3.1.1} 形式的持ち上げ }{55}
+\contentsline {subsection}{\numberline {3.1.2} モナドと持ち上げ }{57}
+\contentsline {section}{\numberline {3.2} 語用論（pragmatics） }{58}
+\contentsline {subsection}{\numberline {3.2.1} ボトムアップ }{58}
+\contentsline {subsection}{\numberline {3.2.2} トップダウン }{58}
 \contentsline {chapter}{\numberline {第4章} 階層性（stratification）}{60}
 \contentsline {section}{\numberline {4.1} 階層モナド（stratified monads） }{60}
 \contentsline {section}{\numberline {4.2} 階層モナド変換子（stratified monad transformers） }{60}
-\contentsline {section}{\numberline {4.3} 頂変換子（top transformers） }{60}
-\contentsline {section}{\numberline {4.4} 底変換子（bottom transformers） }{60}
-\contentsline {section}{\numberline {4.5} 周辺変換子（around transformers） }{60}
-\contentsline {section}{\numberline {4.6} 継続変換子（continuation transformers） }{60}
-\contentsline {section}{\numberline {4.7} 計算ADT }{60}
-\contentsline {section}{\numberline {4.8} 言語ADT }{60}
+\contentsline {subsection}{\numberline {4.2.1} 頂変換子（top transformers） }{60}
+\contentsline {subsection}{\numberline {4.2.2} 底変換子（bottom transformers） }{60}
+\contentsline {subsection}{\numberline {4.2.3} 周辺変換子（around transformers） }{60}
+\contentsline {subsection}{\numberline {4.2.4} 継続変換子（continuation transformers） }{60}
+\contentsline {section}{\numberline {4.3} 計算ADT }{60}
+\contentsline {section}{\numberline {4.4} 言語ADT }{60}
 \contentsline {chapter}{\numberline {第5章} 結論 }{61}
 \contentsline {section}{\numberline {5.1} 持ち上げ 対 階層性 }{61}
 \contentsline {section}{\numberline {5.2} 極限 }{61}
 \contentsline {section}{\numberline {5.3} 関連事項 }{61}
 \contentsline {section}{\numberline {5.4} 将来的事項 }{62}
 \contentsline {section}{\numberline {5.5} 結論 }{62}
-\contentsline {chapter}{\numberline {第6章} 雑録 }{63}
-\contentsline {section}{\numberline {A} なぜschemeか }{63}
-\contentsline {section}{\numberline {B} 型についての重要な点 }{63}
-\contentsline {section}{\numberline {C} 型付きの値 対 型無しの値 }{63}
-\contentsline {section}{\numberline {D} 拡張可能な和と積 }{63}
-\contentsline {chapter}{\numberline {第7章}コード}{64}
-\contentsline {section}{\numberline {A} モナド変換子の定義 }{64}
-\contentsline {chapter}{\numberline {第8章}参考文献}{74}
+\contentsline {chapter}{\numberline {A} 雑録 }{63}
+\contentsline {section}{\numberline {A-1} なぜschemeか }{63}
+\contentsline {section}{\numberline {A-2} 型についての重要な点 }{63}
+\contentsline {section}{\numberline {A-3} 型付きの値 対 型無しの値 }{63}
+\contentsline {section}{\numberline {A-4} 拡張可能な和と積 }{63}
+\contentsline {chapter}{\numberline {B}コード}{64}
+\contentsline {section}{\numberline {B-1} モナド変換子の定義 }{64}
+\contentsline {chapter}{\numberline {C}参考文献}{74}

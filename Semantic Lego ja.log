@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.5-130605-2.6 (utf8.euc) (TeX Live 2014) (preloaded format=platex 2014.11.19)  11 MAR 2015 01:01
+This is e-pTeX, Version 3.14159265-p3.5-130605-2.6 (utf8.euc) (TeX Live 2014) (preloaded format=platex 2014.11.19)  11 MAR 2015 20:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -333,26 +333,26 @@ Package Fancyhdr Warning: \footskip is too small (0.0pt):
 
 [1]
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 99.
+(Font)              scaled to size 13.83836pt on input line 97.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 99.
+(Font)              scaled to size 13.83836pt on input line 97.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 99.
+(Font)              scaled to size 13.83836pt on input line 97.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 99.
+(Font)              scaled to size 13.83836pt on input line 97.
  [2]
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 106.
+(Font)              scaled to size 9.60999pt on input line 104.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 106.
+(Font)              scaled to size 9.60999pt on input line 104.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 23.90964pt on input line 106.
+(Font)              scaled to size 23.90964pt on input line 104.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 23.90964pt on input line 106.
+(Font)              scaled to size 23.90964pt on input line 104.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 23.90964pt on input line 106.
+(Font)              scaled to size 23.90964pt on input line 104.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 23.90964pt on input line 106.
+(Font)              scaled to size 23.90964pt on input line 104.
  (./Semantic Lego ja.toc
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
 (Font)              scaled to size 6.72699pt on input line 2.
@@ -375,31 +375,31 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
  [5] [6] [7]
 第1章
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 19.9311pt on input line 144.
+(Font)              scaled to size 19.9311pt on input line 142.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 19.9311pt on input line 144.
+(Font)              scaled to size 19.9311pt on input line 142.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 19.9311pt on input line 144.
+(Font)              scaled to size 19.9311pt on input line 142.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 19.9311pt on input line 144.
+(Font)              scaled to size 19.9311pt on input line 142.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 149.
+(Font)              scaled to size 6.72699pt on input line 147.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 149.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 151.
+(Font)              scaled to size 5.76599pt on input line 147.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 149.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 151.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 149.
  [8
 
 ] [9] [10]
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 204.
+(Font)              scaled to size 8.64899pt on input line 202.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 204.
+(Font)              scaled to size 8.64899pt on input line 202.
 
 (./figure1.1_Interpreter.scm
 LaTeX Font Info:    Font shape `JT1/gt/bx/n' in size <9> not available
@@ -414,13 +414,13 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 1.
 ) [11] (./figure1.2_Environment_ADT.scm)
 LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <10> not available
-(Font)              Font shape `JT1/mc/m/n' tried instead on input line 218.
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 216.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 218.
+(Font)              scaled to size 9.60999pt on input line 216.
 LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <10> not available
-(Font)              Font shape `JY1/mc/m/n' tried instead on input line 218.
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 216.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 218.
+(Font)              scaled to size 9.60999pt on input line 216.
  [12]
 (./figure1.3_Expression_predicates_and_selectors.scm) [13]
 (./figure1.4_Expression_constructors.scm) [14]
@@ -439,46 +439,43 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (./figure1.9_Monolithic_interpreter_part2.scm) [20] (./figure1.10_Store_ADT.scm
 ) [21]
 LaTeX Font Info:    Font shape `JT1/gt/m/sl' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 338.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 338.
+LaTeX Font Info:    Font shape `JY1/gt/m/sl' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 338.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 338.
+LaTeX Font Info:    Font shape `JT1/gt/bx/n' in size <10> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 340.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 9.60999pt on input line 340.
-LaTeX Font Info:    Font shape `JY1/gt/m/sl' in size <10> not available
+LaTeX Font Info:    Font shape `JY1/gt/bx/n' in size <10> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 340.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 9.60999pt on input line 340.
-LaTeX Font Info:    Font shape `JT1/gt/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 342.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 342.
-LaTeX Font Info:    Font shape `JY1/gt/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 342.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 342.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 342.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 340.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 351.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 351.
  [22] [23] (./figure1.11_Lifting_operators.scm) [24]
 (./figure1.12_Value_level.scm) [25] (./figure1.13_Store_level.scm) [26]
-[27] (./figure1.14_Environment_level.scm [28]) [29] [30]
-(./figure1.15_Level-negotiating_operators.scm) [31]
+[27] (./figure1.14_Environment_level.scm [28]) [29]
+(./figure1.15_Level-negotiating_operators.scm [30]) [31]
 (./figure1.16_Modular_interpreter_part1.scm) [32]
 (./figure1.17_Modular_interpreter_part2.scm) [33]
 (./figure1.19_let_source_definition.scm)
 (./figure1.21_amb_source_definition.scm) (./figure1.22_amb_version1.scm
 [34]) (./figure1.23_amb_version2.scm [35]) (./figure1.24_amb_version3.scm
-[36]) (./figure1.25_Unified_system_of_parametrization.scm) [37]
-
-Package Fancyhdr Warning: \headheight is too small (20.0pt): 
- Make it at least 28.27264pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[38]
+[36]) (./figure1.25_Unified_system_of_parametrization.scm) [37] [38]
 第2章
 [39
 
 ] [40]
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 480.
+(Font)              scaled to size 4.805pt on input line 501.
  [41] [42]
 \openout3 = `"Semantic Lego ja.ent"'.
 
@@ -499,11 +496,11 @@ LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
 [61
 
 ] [62]
-第6章
+A
 [63
 
 ]
-第7章
+B
 [64
 
 ] (./figureB.1_Environment_transformer.scm) [65]
@@ -514,17 +511,17 @@ LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
 (./figureB.6_Second_lifting_transformer.scm) [70]
 (./figureB.7_List_transformer.scm) [71] (./figureB.8_Monoid_transformer.scm)
 [72] (./figureB.9_Resumption_transformer.scm) [73]
-第8章
+C
 [74
 
 ] (./Semantic Lego ja.aux) ) 
 Here is how much of TeX's memory you used:
- 4943 strings out of 493807
- 65619 string characters out of 6151950
+ 4944 strings out of 493807
+ 65634 string characters out of 6151950
  247870 words of memory out of 5000000
- 8243 multiletter control sequences out of 15000+600000
- 22237 words of font info for 103 fonts, out of 8000000 for 9000
+ 8244 multiletter control sequences out of 15000+600000
+ 22825 words of font info for 106 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 32i,11n,43p,818b,1957s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 33i,11n,43p,818b,1957s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on "Semantic Lego ja.dvi" (75 pages, 190764 bytes).
+Output written on "Semantic Lego ja.dvi" (75 pages, 192272 bytes).
