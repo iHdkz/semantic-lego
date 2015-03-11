@@ -1,5 +1,5 @@
-;; Den  = Env -> Sto -> Val x Sto
-;; Proc = Val -> Sto -> Val x Sto
+;; Den  = Env → Sto → Val × Sto
+;; Proc = Val → Sto → Val × Sto
 
 (define (((%num n) env) sto)
   (pair n sto))

@@ -1,4 +1,4 @@
-\documentclass[11pt, oneside]{jsarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\documentclass[11pt, oneside]{jsbook}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
 %\geometry{landscape}                		% Activate for for rotated page geometry
@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 
 \usepackage{verbatim}
+\usepackage{moreverb}
 
 \usepackage{endnotes}
 %\let\footnote=\endnote
@@ -18,29 +19,44 @@
 \patchcmd{\enoteformat}{1.8em}{0pt}{}{}
 
 
-\usepackage{color}
 \usepackage{listings}
+\renewcommand{\lstlistingname}{図}
 \lstset{%
   language={lisp},
-  basicstyle={\ttfamily\small},
-  %keywordstyle={\color{OliveGreen}},
-  %[2][3]はプログラミング言語によってあったり、なかったり
-  keywordstyle={[2]\color{colFunc}},
-  keywordstyle={[3]\color{CadetBlue}},%
-  %commentstyle={\color{Brown}},
-  %identifierstyle={\color{colID}},
-  stringstyle=\color{blue},
+  basicstyle={\ttfamily},
+  commentstyle=\slshape,
+  columns=fixed,
+  fontadjust=true,
+  basewidth=0.5em,
   tabsize=2,
-  %frame=single,
-  %numbers=left,
-  numberstyle={\ttfamily\small},
+ % numbers=left,
+ % numberstyle={\ttfamily\small},
   breaklines=true,%折り返し
-  %backgroundcolor={\color[gray]{.95}},
   captionpos=b,%
-  numbersep=1zw,%
+  %numbersep=1zw,%
 }
-
+\lstdefinestyle{centering}
+{
+  linewidth=\textwidth,
+  xleftmargin=0.2\textwidth,
+  xrightmargin=0.2\textwidth,
+  basicstyle={\ttfamily\small},
+}
 %\renewcommand\thefootnote{訳注\arabic{footnote}}
+
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rhead{\leftmark}
+\lhead{\rightmark}
+
+\makeatletter
+\newenvironment{CenteredBox}{% 
+\begin{Sbox}}{% Save the content in a box
+\end{Sbox}\centerline{\parbox{\wd\@Sbox}{\TheSbox}}}% And output it centered
+\makeatother
+
+\newcommand{\inputlisting}{\lstinputlisting}
 
 \setcounter{tocdepth}{3}
 \title{意味論的レゴ \\
@@ -50,13 +66,14 @@
 David Espinosa\\
 \\
 \begin{small}
-岩城 秀和(訳)
+iHdkz(訳)
 \end{small}
 }
 \date{}							% Activate to display a given date or no date
 %\time{}
 
 \begin{document}
+
 \maketitle
 
 \begin{center}
@@ -78,6 +95,8 @@ Translator's figures including sample codes: https://github.com/iHdkz/semantic-l
 
 
 \newpage
+
+\section*{概要}
 \begin{abstract}
 　表示的意味論（denotational semantics）[Sch86]は、プログラミング言語を記述するための強力な枠組みの一つである。しかしながら、表示的意味論による記述にはモジュール性の欠如、すなわち、概念的には独立した筈である言語のある特徴的機能がその言語の他の特徴的機能の意味論に影響を与えてしまうという問題がある。我々は、モジュール性を持った表示的意味論の理論を示していくことによって、この問題への対処を行なった。
 　Mosses[Mos92]に従い、我々は（言語の）一つの意味論を、計算ADT（computation ADT）と言語ADT（language ADT; ADT, abstract data type: 抽象データ型）の二つの部分に分ける。計算ADTは、その言語にとっての基本的な意味論の構造を表現する。言語ADTは、文法によって記述されるものとしての実用的な言語の構成を表現する。我々は計算ADTを用いて言語ADTを定義することとなるが、（言語ADTの持つ性質はその組み立てられた言語ADTにみられるものだけではなく）現実には、多くの異なる計算ADT（の存在）によって、言語ADTは多様な形態を持つものである。
@@ -86,6 +105,7 @@ Translator's figures including sample codes: https://github.com/iHdkz/semantic-l
 \newpage
 \tableofcontents
 
+\newpage
 \section*{謝辞}
 私の婚約者であるMary Ngは、数年間に渡ってこの論文のために忍耐強く待ってくれた。私は彼女なしでもそれを成すことができたでしょうが、それはずっと悪いものだったろうし、既に悪いものだった。Maryは大学院における苦もない最も嬉しい結果である。
 
@@ -118,31 +138,31 @@ Charles Leiserson は、一人の見習いとしてMITに通うための納得�
 Franklyn Turbakと私はここ2年間インタプリタと言語いじりを非常に楽しんでいた。Lynに会うまでずっと、私は形式意味論は、読者を実際の内容を持った領域について考えることをわざと混乱させるための無意味なごちゃ混ぜのギリシャ文字だと思っていた。私の現在の見解は、この論文を読むことによってあなたが見つけ出さなくてはならない。
 \newpage
 
+%\chapter{}
 %\section{}
-%\subsection{}
 
-\section{はじめに}
-表示的意味論はプログラミング言語を定義するための強力なフレームワークである。それを使用することで、我々は簡潔かつ明確な言語を記述し、実際のプログラムを実行するインタプリタを構築することができる。特にその力を考慮するにあたって、理解することが難しい理論ではない。
+\chapter{はじめに}
+表示的意味論はプログラミング言語を定義するための強力な枠組みである。それを使用することで、我々は簡潔かつ明確な言語を記述し、実際のプログラムを実行するインタプリタを構築することができる。理解することも、特にその力を考慮するにあたっては、難しい理論ではない。
 
-ただ残念ながら、表示的な記述を主に読んだり書いたりすることは困難である、なぜならそれら記述にはモジュール性が欠如しているためである。言語のそれぞれの構成概念は、言語の基礎を形成している意味論的に組み立てられたブロックのすべてと相互作用をする。例えば、もし我々がストアを用いて割り当て（assignment）を実現するならば、すべての言語の構成概念は、割り当てそのものではなくそのストアと情報やりとりをしなければならない。この相互作用の複雑さは表示的な記述をより難解にする。
+ただ残念ながら、それら記述にはモジュール性が欠如しているため、表示的な記述を主に読んだり書いたりすることは困難である。言語のそれぞれの構成概念は、言語の基礎を形成している意味論的に組み立てられたブロックのすべてと相互作用をする。例えば、もし我々がストア（store）を用いて割り当て（assignment）を実現するならば、すべての言語の構成概念は、割り当てそのものではなくそのストアと情報やりとりをしなければならない。この相互作用の複雑さは表示的な記述をより難解にする。
 
-この論文では表示的記述のモジュラーな書き方を提示するが、そのモジュラーな書き方は、構成要素からインタプリタを組み立てるSchemeプログラムであるSemantic Lego\footnote{レゴ（LEGO)は登録商標です。}(SL)として自動化した。本質的に、SLは言語を記述するための言語です。この論文は、いくつかの重要な貢献をする：
+この論文では表示的記述のモジュラーな書き方を提示するが、そのモジュラーな書き方は、構成要素からインタプリタを組み立てるSchemeプログラムであるSemantic Lego\footnote{レゴ（LEGO)は登録商標です。}(SL)として自動化した。本質的に、SLは言語を記述するための言語である。この論文は、いくつかの重要な貢献をする：
 \begin{itemize}
-\item 私たちは、抽象データ型としてのプログラミング言語のアイディアを再導入する。このスタイルで書かれたインタプリタは通常よりも短く明確である。
+\item 我々は、抽象データ型としてのプログラミング言語のアイディアを再導入する。このスタイルで書かれたインタプリタは通常よりも短く明確である。
 
-\item 私たちは、より多くの人たちがアクセスすることができるように、単純な言葉で持ち上げのMoggiの理論を言い直した。
+\item 我々は、より多くの人たちがアクセスすることができるように、単純な言葉で持ち上げのMoggiの理論を言い直した。
 
-\item 私たちは持ち上げよりもより強力でより単純な階層（stratification）の新理論を説明するこの理論は意味論的代数についてのMossesの仕事に構造とモジュラー性を追加することで拡張したものである。
+\item 我々は、持ち上げよりもより強力でより単純な階層（stratification）の新理論を説明するこの理論は意味論的代数についてのMossesの仕事に構造とモジュラー性を追加することで拡張したものである。
 
-\item 我々はモジュラーインタプリタの二つの書き方を示す、それらはそれぞれ持ち上げ(lifting)と階層(stratification)に基づいている。
+\item 我々は、モジュラーインタプリタの二つの書き方を示す、それらはそれぞれ持ち上げ(lifting)と階層(stratification)に基づいている。
 
-\item 私たちはSemantic Lego、モジュラーインタプリタの構文の集まりで階層に基づいたものを提示し、幾つかの例を与える。
+\item 我々は、モジュラーインタプリタの構文の集まりで階層に基づいたもの、Semantic Lego、を提示し、幾つかの例を与える。
 \end{itemize}
 この論文は幾つかの重要な結果を持つ。
 \begin{itemize}
-\item 私たちは理解し、議論し、そして言語を分解することによってより良い言語教えることができる。我々はいくつかの単純な機能の組み合わせとして、それを見るまで例えば、並列処理のresumptionsモデルは、複雑な表示されます。
+\item 我々は、理解し、議論し、そして言語を分解することによってより良い言語教えることができる。我々はいくつかの単純な機能の組み合わせとして、それを見るまで例えば、並列処理のresumptionsモデルは、複雑な表示されます。
 
-\item 私たちは、新しい言語を試すことができる。SLは、設計者に高次元の問題を自由に考えさせるようにしたまま、表示的記述に関連した管理作業を処理する。SLの基礎となる理論は、新しい言語の構成概念を提案する助けにもなる。
+\item 我々は、新しい言語を試すことができる。SLは、設計者に高次元の問題を自由に考えさせるようにしたまま、表示的記述に関連した管理作業を処理する。SLの基礎となる理論は、新しい言語の構成概念を提案する助けにもなる。
 \end{itemize}
 以下の話は、SLの力を示すものである。MITの大学院のプログラミング言語コースのための三人のティーチングアシスタント（TA）は、状態の存在する場合における洗練された制御構文（shift）の意味を記述する必要があった。彼らは制御と状態を独立して理解してはいるものの、問題の集まりを区分する以前に、適合するこれら特徴の間の相互作用を見つけ出すことができなかった。
 
@@ -154,133 +174,222 @@ SLを用いることで、1分足らずで私は二つの解法を作り出し�
 
 この章の残りでは、抽象データ型としての言語を提示し、通常のインタプリタの書き方はモジュラーではないということを実演し、モジュラーインタプリタの二つの書き方について示し、そして例題の集まりとともにSLを練習していく。
 
-\subsection{ ADT（抽象データ型）としての言語}
+\section{ ADT（抽象データ型）としての言語}
 我々は[ASS85]のスタイルの単純なインタプリタから始め、できるだけ多くの構文の問題を除き、そのインタプリタを本質的なものへと単純化する。このアプローチは、(アベルソン(Abelson)とサスマン(Sussman)の意味での)『メタ言語的抽象化(metalinguistic abstraction)』は通常の抽象化とは違いがないことを示している。言い換えれば、新しい言語を形成するために言語の『外に出る』必要はない。それはまたインタプリタの記述を短くし、構文と意味の違いをよりはっきりさせる合理化されたインタプリタの文体を提供する。
 
-図で表されているのは、純粋関数型言語のための単純なインタプリです。
-
-1.1 1.3 その典型的な使用は
-
+純粋な関数型言語のための単純なインタプリタは図１．１-１．３で表されている。その典型的な使用は、
 \begin{lstlisting}
 (compute '((lambda x (* x x)) 9))
 => 81
 \end{lstlisting}
+である。
 
+このインタプリタはリストの形式の具体的な表現を構文解析する。つまり、インタプリタは妥当なプログラムであるリストの部分集合を認識する。構文解析は意味論を必要とすることが少しある、そのため、図１．４で示されるような型構築子を用いつつ、我々は抽象的な構文を渡す。そうすると、同様のプログラムは以下
 \begin{lstlisting}
 (compute (%call (%lambda 'x (%* (%var 'x) (%var 'x))) (%num 9)))
 
 => 81
 \end{lstlisting}
+のようになり、より構文が明示的になる（可読性は下がるが）。
 
+\verb|compute|手続きと協力はするものの、これら型構築子は抽象データ型（ADT）としてインタプリタを記述する。なお、その用法表記は図１．５に示されている。もちろん、その用法表記はインタプリタの振舞いをただ部分的に特徴づけているだけである。より完全な振舞いを記述する最も容易な方法は、図１．１-１．４で与えられているような、実装の「モデル」を提供することである。
+
+もう我々はインタプリタのインターフェースを特徴づけたのだから、我々はより単純な実装が存在するのかどうかについて尋ねることができる。現実に、図１．６はそれが存在することを示している。この図においては、我々はカリー化された関数を定義するためにSchemeの構文を用いている、そのため、
 \begin{lstlisting}
 (define ((f a) b) ...)
 \end{lstlisting}
-
-\newpage
-\lstinputlisting[title={図1.1 インタプリタ},label=fig1.1]{figure1.1_Interpreter.scm}
+は
 \newpage
 
-\lstinputlisting[title=図1.2 環境ADT（環境抽象データ型）, label=fig1.2]{figure1.2_Environment_ADT.scm}
+\lstinputlisting[style=centering, caption={インタプリタ},label=fig1.1]{figure1.1_Interpreter.scm}
+\newpage
+%\setcounter{lstlisting}{0}
+\lstinputlisting[style=centering, caption=環境ADT, label=fig1.2]{figure1.2_Environment_ADT.scm}
+
 \begin{lstlisting}
 (define f (lambda (a) (lambda (b) ...)))
 \end{lstlisting}
+に展開される。
 
+すると、構文的な型構築子と選択子は完全に消えてしまうことがわかる。その新しい実装は今までのものより短く、またオリジナルの意味論的内容を残している。我々は図1.6を言語ADTの表示的実装と呼ぶ。なぜなら、構文よりもむしろ意味によって表現を記述しているからである。以下の等式
 $$
 Den = Env \rightarrow Val
 $$
+を言語の{\it 基本的意味}と呼ぶ。視点が変更したことを反映させるため$Exp$の代わりに$Den$と書く。しかしADTの意味論は以前のものと同じままである。
 
-\newpage
-\lstinputlisting[title=図1.3 述語と選択子（selector）の表現, label=fig1.3]{figure1.3_Expression_predicates_and_selectors.scm}
-\newpage
+これら優位性にもかかわらず、このスタイルでインタプリタを記述する著者はほとんどいない。ひょっとしたら多くの言語は（抽象データ型よりも）具体的なデータ型を使用することを推進しているからかもしれない。例えば、Schemeはリストを強調する一方で、MirandaやHaskellは自由代数的なデータ型（和(sum)や積(product)）を強調する。ADTのより良い支援を受けている言語のプログラマーはより楽にこのスタイルに到達するかもしれない、第一級の関数（first class functions）もまた必要となるが。
 
-\lstinputlisting[title=図1.4 構築子（constructor；コンストラクタ, label=fig1.4）の表現]{figure1.4_Expression_constructors.scm}
-
+表示的スタイルは意味論とは合成的（compositional）であると明確に示している。ここで合成的であるとはつまり表現の意味とはその表現の直接の部分表現の意味から組み合わされたものであるということである。そのオリジナルの実装は
 \newpage
-\lstinputlisting[title=図1.6 表示的（意味論的）な実装, label=fig1.6]{figure1.6_Denotational_implementation.scm}
+\lstinputlisting[style=centering, caption=述語と選択子（selector）の表現, label=fig1.3]{figure1.3_Expression_predicates_and_selectors.scm}
 \newpage
 
+\lstinputlisting[style=centering, caption=構築子（constructor；コンストラクタ, label=fig1.4）の表現]{figure1.4_Expression_constructors.scm}
 
-\lstinputlisting[title=図1.7 構文から意味への写像, label=fig1.7]{figure1.7_Map_from_syntax_to_semantics.scm}
 
+\setcounter{figure}{4}
+\setcounter{lstlisting}{5}
+\begin{figure}[h!]
+\centering
+$$
+\begin{array}{lll}
+\verb|compute| &: Exp    							& \rightarrow Val \\
+\verb|%num|     	&: Val     						& \rightarrow Exp \\
+\verb|%var|        	&: Name 						& \rightarrow Exp \\
+\verb|%lambda| 	&: Name \times Exp 				& \rightarrow Exp \\
+\verb|%call|       	&: Exp \times Exp				& \rightarrow Exp \\
+\verb|%if|       	&: Exp \times Exp \times Exp		& \rightarrow Exp \\
+\verb|%+|       	&: Exp \times Exp		 		& \rightarrow Exp \\
+\verb|%*|       	&: Exp \times Exp 				& \rightarrow Exp 
+\end{array}
+$$
+\caption{インタプリタのインターフェース}
+\end{figure}
+\newpage
+\lstinputlisting[style=centering, caption=表示的（意味論的）な実装, label=fig1.6]{figure1.6_Denotational_implementation.scm}
+\newpage
+
+
+\lstinputlisting[style=centering, caption=構文から意味論への写像, label=fig1.7]{figure1.7_Map_from_syntax_to_semantics.scm}
+表現の意味がその部分表現の構文に依存できる可能性を排除するものではない。図1.1-14と図1.6は同様のインターフェース（図1.5）の、全く異なる基本の型を用いた実装である。前者は表現を用いる、一方で後者は表示を用いる。既に図1.7で示したように、我々は表現から表示への写像、つまり構文から意味論への写像を定義することができる。例えば、\verb|(* 2 3)|は\verb|(%* (%num 2) (%num 3))| となる。
+
+インタプリタの表示的アプローチは[GTWW77]から始まる。この論文は、表現の実装はADTインターフェースの実装の圏の始対象であることを示した（2.1.4節参照）。一つ重大なことはすべての構文は同型であり、そしてすなわち、数学的な視点からは構文は問題ではないとわかった点である。
+
+ADTとしての言語の表現は、[ASS85]または[Wad92]にさえ反して、「メタ言語的」抽象化とデータ抽象化との間に実質的な違いは存在しないということを示した。新しい構文（抽象的な構文でさえ）は新しい言語にとっては必要ではない。本質的に、すべてのADTは新しい言語を形成するし、逆もまた同様である。もちろん我々は構文なしの言語を手に入れることはできない、実際には我々はSchemeの構文を再利用する。例えば、
 \begin{lstlisting}
 (%+ (%num 1) (%num 2))
 \end{lstlisting}
+という表現は（直接的に）Schemeにおいて意味を持つし、（\verb|compute|命令を用いる）解釈される言語においても意味を持つ。拡張可能な構文解析機能があるならば、我々は解釈される言語をより可読しやすいものにすることができるかもしれない。最後に、我々は表示的スタイルがScheme以外の言語（例えば、C言語）においてもうまくいくということを見る。
+\section{モノリシックインタプリタ}
+この節では、普通のモノリシックなインタプリタの書き方を調査し、それが部品として扱えない（モジュラー(modular)ではないということを示す。モノリシック(monolithic)とは、プログラムがもとのコードの形ではモジュールの形に分割されていないということを意味する。非モジュラー(non-modular)とは、局所的な概念変更が大域的なコードの変更を要求するものを言う。すなわち、モノリシックは構文的な特徴であり、一方で非モジュラーとは意味論的な特徴である。
 
-\subsection{単層（monolithic）インタプリタ}
+非モジュラーな例を見るために、我々は上で示した言語をストア(Store)機能を追加するために拡張する。我々は三つの新しい演算子を加える。
+$$
+\begin{array}{lll}
+\verb|%begin| &: Exp \times Exp & \rightarrow Exp \\ 
+\verb|%fetch| &: Loc                    & \rightarrow Exp \\
+\verb|%store| &: Loc \times Exp & \rightarrow Exp 
+\end{array}
+$$
+これら演算子の直感的な意味は\verb|%begin|は順序付けられた二つの表現をストアに結びつけ、\verb|%fetch|はそのストアから値を読み出し、そして\verb|%store|はストアの中に値を書き込む。我々は\verb|%let|を用いて\verb|%begin|を定義できるかもしれない、しかしそれらは同じADTに属する演算子であるので、それらに同一の状態を与えるものである方が良い。
 
+図1.8と1.9は拡張された言語のモノリシックで表示的な実装を示している。図1.10で示されているストアADTは環境ADTとほとんど同一のものである。その基本的意味論の直感的な意味
 $$
 Den = Env \rightarrow Sto \rightarrow Val \times Sto
 $$
+とは、表現は環境とストアに関連した解釈をされるということである。例えば、\verb|(%fetch 'a)|を評価するためには、記憶場所\verb|a|にストアされているものを知る必要がある。値を返すことに加えて、表示内容は更新されたストアも返す。
 
+我々は新しい言語の構成を三つだけ付け加えたが、それ以外の構成に関する実装は抜本的に変化する。例えば、数字はストアするものを何も持たないが、無理やり
 \begin{lstlisting}
 (define (((%num n) env) sto)
   (pair n sto))
 \end{lstlisting}
-
+と、
 \begin{lstlisting}
 (define ((%num n) env)
   n)
 \end{lstlisting}
+の代わりに書くことができる。
 
-\subsection{部品的（modular）インタプリタ}
-
+このように、我々は非モジュラーな例を持つ。つまり、概念的な局所的な変更はそのコードに従った大域的な変更を要請する。
+\section{モジュラーインタプリタ}
+モジュラーなプログラムはモノリシックなプログラムよりも以下のようにいくつか優位な点がある。
+\begin{itemize}
+\item 理解することが容易
+\item 理由をつけて説明することが容易
+\item 拡張と修正が容易
+\end{itemize}
+この節では、二つのモジュラーインタプリタを記述する。我々はこの前の節で構成されたインタプリタを調査することから始める。基本的意味論は
 $$
 Den = Env \rightarrow Sto \rightarrow Val \times Sto
 $$
-
+である。この型において、我々は以下のように三つの全く異なった「レベル」をはっきりと分ける。
 $$
 \begin{aligned}
-E &= Env \rightarrow Sto \rightarrow Val \times Sto \\
-S &= Sto \rightarrow Val \times Sto \\
-V &= Val \\
+E \;&=\; Env \rightarrow Sto \rightarrow Val \times Sto \\
+S \;&=\; Sto \rightarrow Val \times Sto \\
+V \;&=\; Val \\
 \end{aligned}
 $$
 \newpage
-\lstinputlisting[title=図1.8 単層インタプリタ 一部 , label=fig1.8]{figure1.8_Monolithic_interpreter_part1.scm}
+\lstinputlisting[style=centering, caption=モノリシックインタプリタ 一部 , label=fig1.8]{figure1.8_Monolithic_interpreter_part1.scm}
 \newpage
-\lstinputlisting[title=図1.9 単層インタプリタ 二部, label=fig1.9]{figure1.9_Monolithic_interpreter_part2.scm}
+\lstinputlisting[style=centering, caption=モノリシックインタプリタ 二部, label=fig1.9]{figure1.9_Monolithic_interpreter_part2.scm}
 \newpage
 
-\lstinputlisting[title=図1.10 格納（Store）ADT, label=fig1.10]{figure1.10_Store_ADT.scm}
+\lstinputlisting[style=centering, caption=ストアADT, label=fig1.10]{figure1.10_Store_ADT.scm}
+モジュラリティはあり得るものである、なぜならば多くの言語の構成は単一のレベル上で主に操作をしているから（レベル分けをすれば実現可能なもの）である。例えば、\verb|%var|は環境（environment）を操作し、\verb|%+|は値を操作し、そして\verb|%store|はストアを操作する。
 
+モジュラーインタプリタを組み立てるための二つの手法が存在し、我々は家の建築のアナロジーによってその手法を記述する。両方の手法ともに、一つのフロアを一度に組み立て、それを底として組み立て始める。しかしながら、第一の方法は、我々はそれぞれのフロアが完成した後に自分たちの所有物（じゅうたん、家具、陶磁器、絵画、本）を引越しする。第二の方法は、引越しをする前に家が完成するのを待つ。第二の方法がうまくいくということは驚くべきことではない。
+
+第一の方法において、我々は値のレベル（values level）と\verb|%+|のような構成概念で始める。次に我々はストアのレベル（stores level）と\verb|%fetch|のようなより多くの構成概念を追加する。さらに我々は値のレベルの構成概念をストアのレベルに持ち上げる（これは興味深い部分である）。それから我々は環境レベル（environments level）と\verb|%call|のような構成概念を加える。そして我々は値とストアの構成概念も環境レベルに持ち上げる。
+
+第二の方法において、我々は値と関数をすべてのレベルのペアの間で持ち上げるために演算子を定義する。例えば、\verb|unitVE|は値を環境へ持ち上げる。我々はこのような演算子を段階的に定義することができるが、一斉にそれらを定義するのは容易である。それから我々は各々の言語の構成を一度に定義するために、いくつかのレベルを通じて持ち上げることなく、それら演算子を用いる。
+
+どちらのインタプリタにおいても、我々はレベルのペアを関連付けるためにモナドを用いる。モナドとは、型構築子と二つの多相演算子からなる三つ組（$T$, \verb|unit|, \verb|bind|）である。
+$$
+\begin{array}{l}
+\verb|unit| : A \rightarrow T(A) \\
+\verb|bind| : T(B) \times (A \rightarrow T(B)) \rightarrow T(B)
+\end{array}
+$$
+それら演算子は2.2節で議論するようにいくつかの恒等式に従うことを要請される。二つの型$A$と$B$は、$B = T(A)$であるならばモナド（$T$, \verb|unit|, \verb|bind|）によって関係づけられる。\verb|unit|は値を$A$から$B$へ持ち上げ、\verb|bind|は$A \rightarrow B$の型の関数を型$B \rightarrow B$の型の関数へ持ち上げる。
+
+持ち上げが一体何を意味するのか調べてみることにしよう。我々は関数$\verb|square|:Num \rightarrow Num$を持っているとし、これから、リストの各々の数字を平方する$\verb|square-list|:List(Num) \rightarrow List(Num)$関数を定義したいものとする。リストモナド
 \begin{lstlisting}
+;;; T(A) = List(A)
 (define (unit a)
   (list a))
 
 (define (bind tb f)
   (flatten (map f tb)))
 \end{lstlisting}
-
+が与えられたとすると、我々は\verb|square-list|を
 \begin{lstlisting}
 (define (square-list l)
   (bind l (lambda (n) (unit (square n)))))
 \end{lstlisting}
+と定義することができる。我々は標準的なSchemeの\verb|map|関数を用いてこの持ち上げを実現することができる。しかし、2.2.3節で示されるようにモナドは関数を持ち上げることができるが、\verb|map|やその一般化したものは持ち上げることができない。我々は節3.1において持ち上げの形式的な定義を示す。
+\section{インタプリタを持ち上げる（lifting）}
+この節では持ち上げを用いたモジュラーなインタプリタの組み立てたもの提示する。階層化(stratification)はより単純でより強力であるので、初めて読む際は次の節はスキップする方が良いかもしれない。
 
-\subsubsection{インタプリタの持ち上げ（lifting）}
+そのインタプリタは図1.11-1.14で示されたものである。最初の図は持ち上げ演算子の集まりを示している。これら演算子はレベル$A$と$B$を関連付けるモナドと$A$上で定義された関数を受けつける。それらは$B$上で定義された関数を返す。関数は持ち上げのプロセスには関わらないパラメータ型（$X$で表す）も受け付けるかもしれない。それらパラメータは常に実際の引数の前に来る。\verb|lift-pN-aM|演算子は$N$パラメータと$M$引数の関数を持ち上げる。例えば、\verb|lift-p1-a2|は関数
 $$
 f : X \times A \times A \rightarrow A
 $$
-
+を関数
 $$
 f' : X \times B \times B \rightarrow B
 $$
+に持ち上げる。持ち上げ演算子は引数として取る関数がすべて型$A$の値を返すことを想定している。
+
+二つ目の図は値のレベルとそのレベルで定義された構成概念を示している。三つ目の図では持ち上げ演算子とストアモナドをストアのレベルにこれら演算子を持ち上げるために使用している。四つ目の図では環境に対して同様のことを行っている。Schemeプログラム（本質的には、値呼び出しのラムダ計算）に関して解釈し直した適切な法則を用いることで、我々はその最後の構成概念は図1.8のモノリシックな定義と操作的に等価であることを示すことができる。
+
+このインタプリタのためのコードはやや長いにもかかわらず、かなりモジュラーである。例えば、それぞれ以下のようなことを意味することとなる
+\begin{itemize}
+\item \verb|%num|、\verb|%+|、そして\verb|%*|は環境とストアを必要としない。
+\item \verb|%fetch|と\verb|%store|は環境を必要としない、そして
+\item \verb|%var|、\verb|%lambda|、そして\verb|%call|はストアを必要としない。
+\end{itemize}
+我々は\verb|unit|と\verb|bind|を用いた標準的（canonical）な方法おける持ち上げ演算子を用いることでモジュラリティを得る。標準的（canonical）とは、恒等的な型を持つ演算子は恒等的な持ち上げを持つということである。例外は\verb|%if|であり、これは特別な扱いを必要とする。この場合においてさえ、\verb|%if|の持ち上げはすべてのレベルに対して同じ形である。
+
+より深刻なモジュラリティの欠如は、\verb|%var|、\verb|%lambda|そして\verb|%call|を定義するときに発生する。ここで我々は\verb|unitS|と\verb|bindS|を用いる、これらはストアレベルのためだけに設計されたものである。また、我々は環境は値レベルからの値を含むと仮定する。環境の構成概念が多数のレベルと相互作用することから、我々はそれらを非局所的（non-local）と呼ぶ。
+\newpage
+\lstinputlisting[style=centering, caption=持ち上げ演算子, label=fig1.11]{figure1.11_Lifting_operators.scm}
+\newpage
+
+\lstinputlisting[style=centering, caption=値レベル, label=fig1.12]{figure1.12_Value_level.scm}
+
+
+\section{階層化（stratified）インタプリタ}
 
 \newpage
-\lstinputlisting[title=図1.11 持ち上げ演算子, label=fig1.11]{figure1.11_Lifting_operators.scm}
+\lstinputlisting[style=centering, caption=ストアレベル, label=fig1.13]{figure1.13_Store_level.scm}
+\newpage
+\lstinputlisting[style=centering, caption=環境レベル, label=fig1.14]{figure1.14_Environment_level.scm}
 \newpage
 
-\lstinputlisting[title=図1.12 値レベル, label=fig1.12]{figure1.12_Value_level.scm}
-
-
-\subsubsection{多階層（stratified）インタプリタ}
-
-\newpage
-\lstinputlisting[title=図1.13 格納（Store）レベル, label=fig1.13]{figure1.13_Store_level.scm}
-\newpage
-\lstinputlisting[title=図1.14 環境レベル, label=fig1.14]{figure1.14_Environment_level.scm}
-\newpage
-
-\subsection{例示}
+\section{例示}
 この節における例示はSEMANTIC LEGO（以後 SL と略記）の入力/出力の振る舞いを示しており、次の二つの章はその背後の仕組みを説明する。我々はそこで、
 
 フル装備の、schemeに似たある言語、
@@ -290,51 +399,51 @@ Lampingの単一化された、パラメータで指定されるシステム（u
 を考えることになる。
 
 \newpage
-\lstinputlisting[title=図1.15 レベル交渉演算子, label=fig1.15]{figure1.15_Level-negotiating_operators.scm}
+\lstinputlisting[style=centering, caption=レベル交渉演算子, label=fig1.15]{figure1.15_Level-negotiating_operators.scm}
 \newpage
-\lstinputlisting[title=図1.16 部品的インタプリタ 第一部, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
+\lstinputlisting[style=centering, caption=部品的インタプリタ 第一部, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
 \newpage
-\lstinputlisting[title=図1.17 部品的インタプリタ 第二部, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
+\lstinputlisting[style=centering, caption=部品的インタプリタ 第二部, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
 \newpage
 
-\subsection{あるschemeに似た言語}
+\section{あるschemeに似た言語}
 我々は、環境（environment）、手続きの値呼び出し（call by value procedure）、格納（store）、継続（continuation）、非決定性基盤（nondeterminism）及び例外処理（error）の各機能を持つ言語のインタプリタを構成する。図1.18は完全なその言語の仕様、基本的な意味論及び例としての二つの式を示している。SL は、接頭式（prefix form）内において、自動的に基本的な意味論の記述が生成される。
 
 我々は、二つの段階を経てインタプリタを建設する。要点としては、
 
-\subsubsection{非決定性（nondeterministic）と継続（continuation）}
+\section{非決定性（nondeterministic）と継続（continuation）}
 
-\lstinputlisting[title=図1.19 \%let ソースの定義, label=fig1.19]{figure1.19_let_source_definition.scm}
+\lstinputlisting[style=centering, caption=\%let ソースの定義, label=fig1.19]{figure1.19_let_source_definition.scm}
 
-\lstinputlisting[title=図1.21 \%amb ソースの定義, label=fig1.21]{figure1.21_amb_source_definition.scm}
+\lstinputlisting[style=centering, caption=\%amb ソースの定義, label=fig1.21]{figure1.21_amb_source_definition.scm}
 
-\lstinputlisting[title=図1.22 \%ambバージョン1, label=fig1.22]{figure1.22_amb_version1.scm}
+\lstinputlisting[style=centering, caption=\%ambバージョン1, label=fig1.22]{figure1.22_amb_version1.scm}
 
-\lstinputlisting[title=図1.23 \%ambバージョン2, label=fig1.23）の表現]{figure1.23_amb_version2.scm}
+\lstinputlisting[style=centering, caption=\%ambバージョン2, label=fig1.23）の表現]{figure1.23_amb_version2.scm}
 
-\lstinputlisting[title=図1.24 \%ambバージョン3, label=fig1.24]{figure1.24_amb_version3.scm}
+\lstinputlisting[style=centering, caption=\%ambバージョン3, label=fig1.24]{figure1.24_amb_version3.scm}
 
-\lstinputlisting[title=図1.25 単一化された、パラメータによって指定されるシステム, label=fig1.25]{figure1.25_Unified_system_of_parametrization.scm}
+\lstinputlisting[style=centering, caption=単一化された、パラメータによって指定されるシステム, label=fig1.25]{figure1.25_Unified_system_of_parametrization.scm}
 
-\subsubsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
-\subsubsection{再開機能（Resumption）}
+\section{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
+\section{再開機能（Resumption）}
 
 
 \newpage
-\section{ モナド（Monads）}
+\chapter{モナド}
 この章では、我々はまず幾つかの基本的な圏論を提示し、モナド、モナドの間の射、モナドの組み合わせそしてモナド変換子について議論する。これはあなたがモナドについて常に知りたがったことすべてのように聞こえるかもしれないが、現実にはその表面をかろうじてひっかいているものだ。より詳細な情報については[BW85,Mog89a]を参照のこと。
 
 モナドは１９９０年代の関数型プログラミングコミュニティで「熱い話題」だったかもしれないが、現実の「モナドの激増」は、それらがまず考え出された１９６０年代の間に圏論と代数的トポロジーのコミュニティの中で発生した。私は自分自身１９９０年代基準でかなりよい「モナドハッカー」だと考えるが、１９６０年代の一覧表に乗ってさえいないということを認めなくてはならない。たとえそうであっても、私は計算機科学者が、「モナド、、これらは状態についてのものじゃないのかい？」と尋ねることを聞くことがほとんど無いことに気づいた。それは、「代数、、それは１＋１＝２についてのものなんじゃないの？」と聞くようなものだ。
 
-\subsection{基本的な圏論}
+\section{基本的な圏論}
 この節では、我々は圏論における基本的な概念を定義し、圏論と関数型プログラミングとの間の関係性、そして幾つかの参考文献について述べる。
 
-\subsubsection{ 圏 }
+\section{ 圏 }
 圏は型付き関数の合成を抽象化する。一つの圏は、対象（これらは型である）の集合、射（これらは関数である）の集合、そして射の合成演算子からなる。各々の射は、一つの対象（ドメイン）からもう一つの対象（余ドメイン）への方向を指す。もし f : A → B かつ g : B → C が二つの射であるならば、g・f : A → C はそれらの合成である。他とは区別された各々の対象からそれ自身への恒等射が存在する。合成は左単位則、右単位則として恒等射に関して結合的でなくてはならない。
 
 我々が用いる基本的な圏は、我々が意味論や関数プログラミングをしているかどうかに左右されるものだ。意味論において、我々は適合する領域理論（domain theory）を用いる（[Gun92]を参照）。関数型プログラミングにおいては、我々は、この場合においては、Scheme[CR91]の型と関数を使用する。Schemeは明示的には型を持っていないため、我々はそれらを我々自身で想像しなくてはならない。
 圏においては、合成は、適用よりも主たるものである。関数型プログラミングにおいては、組み合わせ言語でプログラムを行わない限りは、その逆である。この視点の変化は実際におけるいくつかの問題をもたらす。我々は最も便利な方を使用する。
-\subsubsection{ 関手 }
+\section{ 関手 }
 圏論において、我々は対象のクラスを定義するときはいつでも、我々はそれらの間の適切な写像も定義する、それ故に、それらは一つの圏となる。このような理由から、これから我々は圏の間の写像を考える。
 圏 C と D の間の関数 T は C の対象から D の対象への写像である。自己関数とは、圏からその圏自身への関数である。我々の場合、一つの自己関数は型構築子である。それは他の型から一つの型を構築する。例えば、T(A) = List(A) は我々の好きな任意の型のリストを構築する。我々の用いる他の型構築子は、関数空間（→）、積（×）、和（+）である。
 関数は圏の間の写像として不十分である、なぜならば射についての作用がないからである。我々は関手 T : C → D を、これもまた T と呼ばれる以下のような C の射から D の射に移す関数 mapT と同様となるように定義する。
@@ -360,14 +469,58 @@ Lampingの単一化された、パラメータで指定されるシステム（u
   (f (ta env)))
 \end{lstlisting}
 
-\subsubsection{ 自然変換 }
-\subsubsection{ 始対象の性質（initiality）}
-\subsubsection{ 双対性 }
-\subsubsection{ 圏論と関数型プログラミング }
-\subsubsection{ 参考文献 }
-\subsection{ モナド }
+\section{ 自然変換 }
+関手 $S$ から $T$ への自然変換（natural transformation）とは、多相関数（polymorphic function）
+$$
+\verb|sigma| : S(A) \rightarrow T(A)
+$$
+で、以下の条件
+$$
+\begin{aligned}
+&\text{全ての} \verb|f| : A \rightarrow B \text{に対して}\\
+&\verb|(o sigma (mapS f)) = (o (mapT f) sigma)| : S(A) \rightarrow T(B)
+\end{aligned}
+$$
+が成り立つものを言う。「\verb|sigma|は\verb|map|で可換である」とこの性質を覚えておくと簡単である。他の例として以下がある
+$$
+\begin{array}{ll}
+\verb|reverse| &: List(A) \rightarrow List(A) \\
+\verb|flatten|  &: List(list(A)) \rightarrow List(A) \\
+\verb|list|        &:A \rightarrow List(A) \\
+\verb|left|       &:A \times A \rightarrow A \\
+\verb|diag|     &:A \rightarrow A \times A
+\end{array}
+$$
+なお、ここで \verb|list| は$Id$関手から$List$関手へ自然であり、\verb|left|はペアを作る関手から$Id$関手へ自然である、そして \verb|diag| は$Id$関手からペアを作る関手へ自然である。
+
+圏論における用語を用いると、自然変換は対象から射への写像である。ある対象$A$が与えられたとき、我々は一つの射$\verb|sigmaA|: S(A) \rightarrow T(A)$を得る。言い換えれば、型を添え字とする関数の族を得るのである。上の自然性の条件は我々の射の選び方を体系付けており、我々は任意に射を選ぶことができない。これはアドホックなポリモルフィズム（多相性）というよりもむしろパラメータ付けられたポリモルフィズムをもたらしている。より詳しい情報については[Wadb]参照。
+\section{ 始対象の性質（initiality）}
+圏における一つの対象は、その対象から圏の各対象へただ一つの射が存在するとき、始対象（initial）である。一つの対象が終対象（terminal）であるとは、圏の対象からその対象へただ一つの射が存在するものをいう。始対象と終対象はもしそれらが存在すれば同型を除いて一意的（unique up to isomorphism）に定まる。圏の二つの対象 A, B が同型であるとは、$g \circ f = Id_B$ かつ $f \circ g = Id_A$ となる射 $f : A \rightarrow B$ と $g : B \rightarrow A$ が存在することを言う。
+
+例えば、集合と全域関数の圏において、空集合は始対象であり任意の一点要素からなる集合は終対象である。ここで、多くの一点要素からなる集合が存在し、それらはすべて同型であることに気づかされる。始対象の性質はこの論文において多用するところを見ることはない、ひょっとしたら圏論での{\bf その論文の}基礎を成す概念であるかもしれないが。
+
+\section{ 双対性 }
+圏 $C$ が与えられたとき、圏の各々の射の向きと合成の順序を反対にすることによって、我々はその双対（dual）  $C^op$ を得ることができる。いうまででもないが、この操作は普通の関数型プログラミングにおけるものとは全く異なる。もし対象が圏 $C$ において始対象であるならば、双対 $C^op$ では終対象となり、逆もまた同様である。したがって、我々は始対象と終対象は双対概念であると呼ぶ。他のよく知られる双対概念としては積（product）/和（sum）と単射（injective）/全射（surjective）がある。
+
+彼の素晴らしい修士論文[Fil89]において、Filinskiは、値（value）と継続（continuation）は双対であることを示した。彼の言語から直感を高めることが難しいにもかかわらず、彼の論文は多くの驚くべき洞察を多く含んでいる。
+\section{ 圏論と関数型プログラミング }
+数学とプログラミングは二つの異なる活動であるということを少なくとも当面の間、思い出すことは重要である。その主な問題は、現在の言語はプログラムの性質を表現したり確かめたりする自動化されたサポートを提供していないところである。
+
+この論文においては、ある特定の方法、すなわち対象は型、射は関数というように関数型プログラミングに圏論を埋め込む。他の埋め込み方もあり得る。例えば、[RB90]を参照、そこでは対象を値として表現する。それらアプローチは他のものよりも簡単でわかりやすいものではないが、より柔軟である。
+
+我々の選んだ埋め込み方には幾つかの問題がある。
+\begin{itemize}
+\item 現在の言語は、弱いか存在しないかまたは暗黙の型システムを持つ（節A.2参照）。圏論においては、ともかく任意の種類の対象からなる圏を作ることができる。
+\item 圏論的合成を関数の合成として表現することは簡単ではないかもしれない（もしくはそもそも可能なものか、しかし私はこれについては確認していない）。我々はまた計算可能ではない合成を表現することもできない。
+\end{itemize}
+この埋め込みにおける、圏論と関数型プログラミングについての明白で最も包括的な取り扱いは[Spi93]を見よ。願わくば、Spiveyがこれら手書きのメモを電子的または本の形式ですぐに刊行してくれればいいのだが。多くの省略されたバージョンは[Spi89]で見られる。
+\section{ 参考文献 }
+計算機科学のための圏論についての一般的な参考文献は[Pie91]と[BW90]である。後者は多くの例と応用を含みそしてその長さにもかかわらずわかりやすい。圏論は学ぶにあたって恐ろしく難しくはない、なぜならばその豊かで記述的な内容は読者に概念を一つづつ得られるように導いて行き、すでに理解している他の領域における概念をそれぞれ関連づけていくからである。
+
+圏論は抽象代数の一部であると思われているかもしれない。マックレーン（MacLane）とバーコフ（Birkhoff）の大きめの本[MB88]は代数への素晴らしい入門である、なぜならば終わりごろに圏論が紹介されているだけでなく、圏論的洞察が初めから終わりまで用いられているからである。
+\section{ モナド }
 この節においては、我々はモナドについて二つの定式化を提示し、それらの背後の洞察について議論する。モナドは付加的な構造を伴った関手である、同様にして、関手は付加的な構造を持った関数である。
-\subsubsection{ 一つ目の定式化 }
+\section{ 一つ目の定式化 }
 モナドは、自己関手と二つの自然変換
 
 $$\verb|unit| : A \rightarrow T(A) $$
@@ -394,19 +547,23 @@ $$
 この定式化は修正されたモノイドとしてのモナド[Mac71]を示している\endnote{ここはおかしい。マックレーンの主張するモノイドのアナロジーとしてのモナドの話と著者の例示しているものはズレている。}（そのため、そのような名称となっている）なお、ここで\verb|unit|は恒等元（identity）であり\verb|join|はモノイド演算子である。上記の法則は、左・右単位則と結合規則である。
 
 表2.1は意味論において使用される幾つかの共通したモナドの型構築子を示している。我々は次の節でそれらの\verb|unit|と\verb|join|演算子を記述する（二つ目の定式化を経過した上で）。
-\subsubsection{ 二つ目の定式化 }
-\subsubsection{ 解釈 }
+\section{ 二つ目の定式化 }
+\section{ 解釈 }
 
 \newpage
-\lstinputlisting[title=図2.1 モナドの例 パート１, label=fig2.1]{figure2.1_Example_monads_part1.scm}
+\lstinputlisting[style=centering, caption=モナドの例 パート１, label=fig2.1]{figure2.1_Example_monads_part1.scm}
 \newpage
-\lstinputlisting[title=図2.2 モナドの例 パート２, label=fig2.2]{figure2.2_Example_monads_part2.scm}
+\lstinputlisting[style=centering, caption=モナドの例 パート２, label=fig2.2]{figure2.2_Example_monads_part2.scm}
 \newpage
 
-\subsection{ モナド射（monad morphism） }
+\section{ モナド射（monad morphism） }
+対象の間の射はそれら対象と同じくらい重要であるという『圏論的規則』に合わせて、我々はモナドの間の射を定義する。すなわち、我々はモナドの圏とモナドの射を作る。
+
+クライスリ圏はモナド則の開発に助けとなったことから、我々はモナド $S$ と $T$ の間の射はそれらクライスリ圏の間の関手 $K$ であるとする。$K$ は対象の恒等射として振舞う。射について、我々は
 $$
 \verb|mapK| : (A \rightarrow S(B)) \rightarrow (A \rightarrow T(B))
 $$
+が以下の関手的性質
 \begin{lstlisting}
 ;; f : A →S(B)
 ;; g : B →S(C)
@@ -414,23 +571,25 @@ $$
 (mapK idS)       = idT   
 (mapK (oS g f))  = (oT (mapK g) (mapK f))
 \end{lstlisting}
-
+を満たすようにする。我々は\verb|unit|、\verb|bind|そして自然変換 $K : S(A) \rightarrow T(A)$ によってこの定義を再定式化し、その場合
 \begin{lstlisting}
 (K (unitS a))    = (unitT a)
 (K (bindS sa f)) = (bindT (K sa) (o K f))
 \end{lstlisting}
+となる。
 
+モナドの間の射の一つの例はリストモナドからそれ自身への\verb|reverse|関数である。
 \begin{lstlisting}
 (reverse (list a))         = (list a)
 (reverse (append-map f l)) = (append-map (o reverse f) (reverse l))
 \end{lstlisting}
-
-\subsection{ 組み合わせないモナド }
+リストモナドからそれ自身への自然変換であってモナドの間の射ではないものの一つの例は\verb|(lambda (l) '())|であり、これは最初の法則を満たさない。
+\section{ 組み合わせないモナド }
 
 \newpage
-\lstinputlisting[title=図2.3 組み合わさないモナド, label=fig2.3]{figure2.3_Monads_dont_compose.scm}
+\lstinputlisting[style=centering, caption=組み合わさないモナド, label=fig2.3]{figure2.3_Monads_dont_compose.scm}
 
-\subsection{ 組み合せたモナド }
+\section{ 組み合せたモナド }
 $$
 \verb|swap| : TS \rightarrow ST
 $$
@@ -457,8 +616,8 @@ ST = S \circ T \\
 \end{array}
 $$
 
-\subsection{ モナド変換子（monad transformers） }
-\subsubsection{  動機 }
+\section{ モナド変換子（monad transformers） }
+\section{  動機 }
 $$
 F(T)(A) = Env \rightarrow T(A)
 $$
@@ -476,7 +635,7 @@ $$
   (lambda (sto) (list (pair a sto))))
 \end{lstlisting}
 \newpage
-\lstinputlisting[title=図2.4 環境モナド変換子, label=fig2.4]{figure2.4_Environment_monad_transformer.scm}
+\lstinputlisting[style=centering, caption=環境モナド変換子, label=fig2.4]{figure2.4_Environment_monad_transformer.scm}
 
 \begin{lstlisting}
 (define (unitS a)
@@ -491,7 +650,7 @@ $$
   (pair a (empty-store))
   \end{lstlisting}
 
-\subsubsection{  形式化 }
+\section{  形式化 }
 \begin{lstlisting}
 (define (unitT a)
   (pair a (empty-store))
@@ -543,7 +702,7 @@ $$
     ((f (fta env)) env)))
 \end{lstlisting}
 
-\subsubsection{ モナド変換子のクラス }
+\section{ モナド変換子のクラス }
 $$
 F(T)(A) = Env \rightarrow T(A)
 $$
@@ -580,7 +739,7 @@ $$
     ストア        &  $Sto \rightarrow T(A \times Sto) $ & 周辺  \\ \hline
   \end{tabular}
 \end{table}
-\subsubsection{ モナド変換子の組み合わせ }
+\section{ モナド変換子の組み合わせ }
 
 \begin{lstlisting}
 (compose
@@ -604,34 +763,213 @@ F(T)(A) = Env &\rightarrow 	& 				 \\
 \setcounter{endnote}{0}
 
 \newpage
-\section{ 持ち上げ（lifting）}
-\subsection{ 持ち上げ（lifting） }
-\subsubsection{  形式的持ち上げ }
-\subsubsection{ モナドと持ち上げ }
-\subsection{ 語用論（pragmatics） }
-\subsubsection{ 上昇型（bottom-up） }
-\subsubsection{ 下降型（top-down） }
+\chapter{ 持ち上げ（lifting）}
+ この章では重要な概念である持ち上げ（lifting）を通してインタプリタの組み立てるためにモナド変換子をどのように使えばいいかということを示す。はじめの節では持ち上げの一般的な定義を提示し、次の節では幾つかのインタプリタの組み立ての方法について記述する。
+\section{ 持ち上げ（lifting） }
+この節では、我々は持ち上げを形式化し、モナドはどのようにして単純な記号で演算を持ち上げることができるかということについて示す。
+\section{  形式的持ち上げ }
+我々は関手 $S$ によってパラメータ化された型 $t(S)$ の言語を次のように定義する。
+$$
+\begin{aligned}
+t(S) & = S                        & \text{(定数)} \\
+        & | V                        & \text{(変数)} \\
+        & | t \times t          & \text{(組)} \\
+        & | t \rightarrow t & \text{(関数)} \\
+        & | S(t)                   & \text{(関手)}
+\end{aligned}
+$$
+この定義の形式は[LJH95]による。若干やや複雑なバージョンは[Mog89a]に見られる。それはパラメータ性についての Reynold の研究における基礎的な定義とほぼ同じでもある[Wadb]。
+
+特定の S について $t(S)$ は、型変数を許しているので、まだ多相的（polymorphic）である。二つの関手 S , S' と自然変換 $\verb|sigma| : S \rightarrow S'$ が与えられたとすると、\verb|sigma| を用いた型 t の持ち上げとは、写像
+$$
+L : t(S) \rightarrow t(S')
+$$
+であり、以下
+$$
+\begin{array}{lll}
+\verb|(L a)|                & = \verb|a|                              & \text{(定数)} \\
+\verb|(L v)|                & = \verb|v|                              & \text{(変数)} \\
+\verb|(L (pairt x y)) |& = \verb|(pair (L x) (L y))|    & \text{(組)} \\
+\verb|((L f) (L x)) |   & = \verb|(L (f x))|                   & \text{(関数)} \\
+\verb|(L s)|                & = \verb|(sigma (mapS L s)| & \text{(関手)} \\ 
+\end{array}
+$$
+を満たすものである。
+
+ここで、\verb|sigma| が自然（natural）であることから
+\begin{lstlisting}
+(sigma (mapS L s)) = (mapS' L (sigma s))
+\end{lstlisting}
+を満たすことに気づく。この定義は持ち上げを、一つの関数ではなく、一つの関係として特徴付ける。実際、 $t$ と \verb|sigma| が与えられれば、一つないし０個の多くの持ち上げが得られるかもしれない。例えば、以下の記号、関手、そして関数を固定したとしよう。すなわち、
+$$
+\begin{array}{lll}
+t(S)  &= \; &S(A) \rightarrow A \\
+S(A) &= & A \\
+\verb|(mapS f a)| &=  &\verb|(f a)| \\
+\verb|id| &: & t(S)
+\end{array}
+$$
+であるする。このとき、もし関手 $S'$ と $S$ から　$S'$ への自然変換 \verb|sigma| を特徴付けるとすると、\verb|sigma| に沿った \verb|id| の持ち上げを列挙することができる。まず、
+
+;; S'(A) = A × A
+\begin{lstlisting}
+(define ((mapS' f) p)
+  (pair (f (left p)) (f (right p))))
+
+(define (sigma a) (pair a a))|
+\end{lstlisting}
+
+\begin{lstlisting}
+(f (pair a a)) = a
+\end{lstlisting}
+
+\begin{lstlisting}
+;; S'(A) = List(A)
+
+(define (mapS' f l) (map f l))
+
+(define (sigma a) (list a))
+\end{lstlisting}
+
+\begin{lstlisting}
+(f (list a)) = a
+\end{lstlisting}
+
+\begin{lstlisting}
+T(A) = List(A)
+append : T(A) x T(A) → T(A) 
+\end{lstlisting}
+
+\begin{lstlisting}
+;; F(T)(A) = Env -> T(A)
+(define (unitF ta)
+  (lambda (env) ta))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; lifted-append : F(T)(A) x F(T)(A) -> F(T)(A)
+(define (lifted-append fta1 fta2)
+  (lambda (env)
+    (append (fta1 env) (fta2 env))))
+\end{lstlisting}
+
+\begin{lstlisting}
+;; %var : Name -> Env -> T(A)
+;; Env = Name -> A
+
+(define (%var name)
+  (lambda (env) (unitT (env-lookup env name))))
+\end{lstlisting}
+
+\section{ モナドと持ち上げ }
+そろそろ、モナドは持ち上げを定義できることを明らかにするべきだろう。例えば、二項演算 $\verb|f| : A \times B \rightarrow C$ をモナド T の \verb|unit| に沿って \verb|F| へ持ち上げてみよう。我々は F を
+\begin{lstlisting}
+(define (F ta tb)
+  (bind ta
+        (lambda (a)
+          (bind tb
+                (lambda (b)
+                  (unit (f a b)))))))
+\end{lstlisting}
+と書く。
+
+モナド則を用いることで、\verb|F| は \verb|f| の一つの前節に従った持ち上げであることを示すことができる。我々は、
+\begin{lstlisting}
+(F (unit a) (unit b)) = (unit (f a b))
+\end{lstlisting}
+という性質を必要とする。
+
+置き換えと第一モナド則を二度用いることで、
+\begin{lstlisting}
+(F (unit a) (unit b))
+
+= (bind (unit a)
+        (lambda (a)
+          (bind (unit b)
+                (lambda (b)
+                  (unit (f a b))))))
+
+= (bind (unit b)
+        (lambda (b)
+          (unit (f a b))))
+
+= (unit (f a b))
+\end{lstlisting}
+を得る。
+
+モナドを用いて持ち上げ可能な記号の集まりを決めることは面白いであろう。\verb|%callcc| のような幾つかの有用な演算子はどうやら持ち上げ可能ではないらしい。
+
+\section{ 語用論（pragmatics） }
+一つのモナドに適用するいくつかのモナド変換子の合成
+$$
+(F_1 \circ \cdots \circ F_n)(T)
+$$
+を考えよう。
+
+ボトムアップでは、我々はモナドの列 $F_n(T), F_{n-1}(F_n(T)), ....$ を作る。トップダウンでは、モナド変換子の列 $F_1, F_1\circ F_2 , ...$ を作る。自然に、我々は幾つかのポイントで変換子の列を分割することでこれらアプローチを組み合わせることができる。すなわち左半分はトップダウン、右半分はボトムアップ、次に実際に適用するためにその二つの半分の列を組み合わせるのである。
+\section{ ボトムアップ }
+\section{ トップダウン }
+トップダウンアプローチはワドラー[Wad92]を一般化した拡張可能なインタプリタのシステムを生成する。一つの列、$F_1, F_1 \circ F_2, ... ,$ において、我々は $F_1$ をモナドによってパラメータ化された一つのインタプリタと見る。例えば、ワドラーの基本的なインタプリタは $F(T)(A) = Env \rightarrow T(A)$ である。しかしながら、我々はモナドを提供する代わりに、他のインタプリタを得るためにモナド変換子を提供する。言い換えれば、与えられたパラメータ化されたインタプリタ $I$ とモナド変換子 $F$ が与えられれば、我々は他のパラメータ化されたインタプリタ $I \circ F$ を作る。もちろん、我々は演算子を正しく持ち上げることに気をつけなくてもならない。スティールはこのアプローチを探した[Ste94]が、高階型に渡すときにミスをした。
+
+\newpage
+\chapter{ 階層性（stratification）}
+\section{ 階層モナド（stratified monads） }
+\section{ 階層モナド変換子（stratified monad transformers） }
+\section{ 頂変換子（top transformers） }
+\section{ 底変換子（bottom transformers） }
+\section{ 周辺変換子（around transformers） }
+\section{ 継続変換子（continuation transformers） }
+\section{ 計算ADT }
+\section{ 言語ADT }
 
 
 \newpage
-\section{ 多階層性（stratification）}
-\subsection{ 多階層モナド（stratified monads） }
-\subsection{ 多階層モナド変換子（stratified monad transformers） }
-\subsubsection{ 頂変換子（top transformers） }
-\subsubsection{ 底変換子（bottom transformers） }
-\subsubsection{ 周辺変換子（around transformers） }
-\subsubsection{ 継続変換子（continuation transformers） }
-\subsection{ 計算ADT }
-\subsection{ 言語ADT }
+\chapter{ 結論 }
+\section{ 持ち上げ 対 階層性 }
+\section{ 極限 }
+\section{ 関連事項 }
+{\bf Spivey} [Spi90]は例外処理の取り扱いについて抽象化をするためにモナドを使用しているが、拡張性を伴うこれらアイディアについては結びついていない。
 
 
-\newpage
+{\bf Moggi} [Mog89b、Mog91] は『応用された（applied）』ラムダ計算を、一つのモナドとして表現された、核の部分（変数と環境）と拡張部分（他の特徴）に分離した。彼は多くの拡張を提示し、プログラムについて論証するために『計算的(computational)ラムダ計算』を導き出した。
+
+モッジはまた、モナド変換子は部品から複雑なモナドを組み立てることができるということも示した[Mog89a]。この重大な機能はこれまでにないものであった。しかしながら、彼の説明は難解で、わずかの研究者が彼が具体的進歩を成し得ていたことに気づいただけだった。
+
+[Esp94]はモッジの手法を書き換えた。それら手法は、 \%call/cc や \%+ ようなものでさえ、多数の意味論的階層を呼び出している構成概念を簡単に扱っていないと私は理解した（非数値の例外を発生させるためである）。階層化モナド（stratified monad）はこの問題を解決し、計算ADTと言語ADTとの間に抽象化の壁を挿入することによるモジュール性を加える。
+
+{\bf Wadler} [Wad92] はHaskellで書かれたモナディックなインタプリタを提案することによってモッジのアイディアを広めた。インタプリタのシングルトンなモナドによる拡張の限界が、この論文（を書くこと）の動機付けとなった。また、ワドラーとキング（King）は他のモナドと共に、継続（continuation）とリスト（list）を組み合わせる方法を示した[KW92]。モッジのモナド変換子の早くからの定式化にもかかわらず、彼らは『M から M L を構築すること』よりも『M と L を組み合わせること』について議論した。SL は一般的な形でモナド構築子を扱い、たった二つではない、多数のモジュールからインタプリタを組み立てるための完全なシステムを提示する。
+
+{\bf Steele} [Ste94] は、新しい構成概念である、擬モナド（pseudomonad）の組み合わせ方を示した、彼らは組み合わせはするものの、擬モナドはモナド変換子よりも複雑であり、より一般的なものではない。実際、擬モナドは本質的には底モナド変換子（bottom monad transformers）である。すなわちそれらは
+$$
+\begin{aligned}
+F(T)(A) & = T(List A)\\
+F(T)(A) &= T(A+X)\\
+F(T)(A) &= T(A \times M)
+\end{aligned}
+$$
+ということは実現できるが、
+$$
+\begin{aligned}
+F(T)(A) &= Env \rightarrow T(A)\\
+F(T)(A) &= Sto \rightarrow T(A \times Sto)
+\end{aligned}
+$$
+ということはできない。
+
+スティールの擬モナドは固定された合成演算子を提供することによってモナド変換子をより良いものにするという主張は、それらが同等の強力さを持っていないために、その適用に失敗している。しかしながら、スティールのモジュラーインタプリタの完全な実装はひらめきを与え続けていた、そしてここで記述される階層的アプローチは彼の擬モナドのタワーに基づいている。
+
+{\bf Jones and Duponcheel}　[JD93] はモナドの組み合わせ問題に取り組んだ。彼らは
+
+{\bf Mosses}
+
+{\bf Filinski}
+
+{\bf Cartwright and Felleisen}
+
+
+\section{ 将来的事項 }
 \section{ 結論 }
-\subsection{ 持ち上げ 対 多階層性 }
-\subsection{ 極限 }
-\subsection{ 関連事項 }
-\subsection{ 将来的事項 }
-\subsection{ 結論 }
+
 
 
 \newpage
@@ -639,36 +977,36 @@ F(T)(A) = Env &\rightarrow 	& 				 \\
 \renewcommand{\thesubsection}{\thesection-\arabic{subsection}}
 \setcounter{section}{0}
 
-\section{ 雑録 }
-\subsection{ なぜschemeか }
-\subsection{ 型についての重要な点 }
-\subsection{ 型付きの値 対 型無しの値 }
-\subsection{ 拡張可能な和と積 }
+\chapter{ 雑録 }
+\section{ なぜschemeか }
+\section{ 型についての重要な点 }
+\section{ 型付きの値 対 型無しの値 }
+\section{ 拡張可能な和と積 }
 
 
 \newpage
-\section{コード}
-\subsection{ モナド変換子の定義 }
+\chapter{コード}
+\section{ モナド変換子の定義 }
 \newpage
-\lstinputlisting[title=図B.1 環境変換子, label=figB.1]{figureB.1_Environment_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.1 環境変換子, label=figB.1]{figureB.1_Environment_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.2 例外変換子, label=figB.2]{figureB.2_Exception_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.2 例外変換子, label=figB.2]{figureB.2_Exception_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.3 継続変換子, label=figB.3]{figureB.3_Continuation_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.3 継続変換子, label=figB.3]{figureB.3_Continuation_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.4 ストア変換子, label=figB.4]{figureB.4_Store_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.4 ストア変換子, label=figB.4]{figureB.4_Store_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.5 第一持ち上げ変換子, label=figB.5]{figureB.5_First_lifting_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.5 第一持ち上げ変換子, label=figB.5]{figureB.5_First_lifting_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.6 第二持ち上げ変換子, label=figB.6]{figureB.6_Second_lifting_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.6 第二持ち上げ変換子, label=figB.6]{figureB.6_Second_lifting_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.7 リスト変換子, label=figB.7]{figureB.7_List_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.7 リスト変換子, label=figB.7]{figureB.7_List_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.8 モノイド変換子, label=figB.8]{figureB.8_Monoid_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.8 モノイド変換子, label=figB.8]{figureB.8_Monoid_transformer.scm}
 \newpage
-\lstinputlisting[title=図B.9 再開機能変換子, label=figb.9]{figureB.9_Resumption_transformer.scm}
+\lstinputlisting[style=centering, caption=図B.9 再開機能変換子, label=figb.9]{figureB.9_Resumption_transformer.scm}
 
 
-\section{参考文献}
+\chapter{参考文献}
 
 \end{document}  

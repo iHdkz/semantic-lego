@@ -27,7 +27,25 @@ sigma:S(A) -> T(A)
 (define ((join tta) env)
   ((tta env) env))
 
+;; 2.3 monad morphism
+;; f : A →S(B)
+;; g : B →S(C)
+
+(mapK idS)	 = idT
+(mapK (oS g f))	 = (oT (mapK g) (mapK f))
+
+
+(K (unitS a))	 = (unitT a)
+(K (bindS sa f)) = (bindT (K sa) (o K f)) 
+
+
+(reverse (list a))	   = (list a)
+(reverse (append-map f l)) = (append-map (o reverse f) (reverse l))
+
 ;; Motivation
+(define (unit a)
+  (lambda (sto) (list (pair a sto))))
+
 (define (unitS a)
   (lambda (sto) (pair a sto)))
 
@@ -102,3 +120,76 @@ sigma:S(A) -> T(A)
  continuations
  nondeterminism
  exceptions))
+
+;; Chapter 3 Lifting
+
+;; 3.1 Formal lifting
+(define ((mapS' f) p)
+  (pair (f (left p)) (f (right p))))
+
+(define (sigma a) (pair a a))
+
+
+(f (pair a a)) = a
+
+
+;; S'(A) = List(A)
+
+(define (mapS' f l) (map f l))
+
+(define (sigma a) (list a))
+
+T(A) = List(A)
+append : T(A) x T(A) → T(A)
+
+;; F(T)(A) = Env -> T(A)
+(define (unitF ta)
+  (lambda (env) ta))
+
+;; lifted-append : F(T)(A) x F(T)(A) -> F(T)(A)
+(define (lifted-append fta1 fta2)
+  (lambda (env)
+    (append (fta1 env) (fta2 env))))
+
+
+(define (F ta tb)
+  (bind ta
+	(lambda (a)
+	  (bind tb
+		(lambda (b)
+		  (unit (f a b)))))))
+
+
+(F (unit a) (unit b)) = (unit (f a b))
+
+
+(F (unit a) (unit b))
+
+= (bind (unit a)
+	(lambda (a)
+	  (bind (unit b)
+		(lambda (b)
+		  (unit (f a b))))))
+
+= (bind (unit b)
+	(lambda (b)
+	  (unit (f a b))))
+
+= (unit (f a b))
+
+
+;; %var : Name -> Env -> T(A)
+;; Env = Name -> A
+
+(define (%var name)
+  (lambda (env) (unitT (env-lookup env name))))
+
+; Monads and lifting
+
+(define (F ta tb)
+  (bind ta
+	(lambda (a)
+	  (bind tb
+		(lambda (b)
+		  (unit (f a b)))))))
+

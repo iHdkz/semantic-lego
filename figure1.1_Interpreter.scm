@@ -33,16 +33,3 @@
 (define (eval-+ exp env)
   (+ (eval (op-arg1 exp) env)
      (eval (op-arg2 exp) env)))
-
-(define (empty-env) '())
-
-(define (env-lookup var env)
-  (let ((entry (assq var env)))
-    (if entry
-      (error "Unbound variable: " var)
-      (right entry))))
-
-(define (env-extend var val env)
-  (pair (pair var val) env))
-
-
