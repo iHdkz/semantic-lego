@@ -22,25 +22,28 @@
 \usepackage{listings}
 \renewcommand{\lstlistingname}{図}
 \lstset{%
-  language={lisp},
-  basicstyle={\ttfamily},
-  commentstyle=\slshape,
-  columns=fixed,
-  fontadjust=true,
-  basewidth=0.5em,
-  tabsize=2,
- % numbers=left,
- % numberstyle={\ttfamily\small},
-  breaklines=true,%折り返し
-  captionpos=b,%
-  %numbersep=1zw,%
+	language={lisp},
+  	basicstyle={\ttfamily},
+	commentstyle={\slshape},
+	columns=fixed,
+  	fontadjust=true,
+	basewidth=0.5em,
+	tabsize=4,
+	xleftmargin=2zw,
+	showstringspaces=false,
+%	numbers=left,
+%  	numberstyle={\ttfamily\small},
+%  	numbersep=2zw,%
 }
 \lstdefinestyle{centering}
 {
-  linewidth=\textwidth,
-  xleftmargin=0.2\textwidth,
-  xrightmargin=0.2\textwidth,
-  basicstyle={\ttfamily\small},
+  	linewidth=\textwidth,
+  	xleftmargin=0.2\textwidth,
+  	xrightmargin=0.2\textwidth,
+%  	basicstyle={\ttfamily\small},
+	basicstyle={\ttfamily\footnotesize},
+	frame=lines,
+	captionpos=b,
 }
 %\renewcommand\thefootnote{訳注\arabic{footnote}}
 
@@ -59,14 +62,29 @@
 \newcommand{\inputlisting}{\lstinputlisting}
 
 \setcounter{tocdepth}{3}
-\title{意味論的レゴ \\
+\title{（翻訳途中）意味論的レゴ \\
 （Semantic Lego）
 }
 \author{デビッド エスピノーザ(著)\\
 David Espinosa\\
 \\
+Columbia University
+\\
+Department of Computer Science
+\\
+New York, NY 10027
+\\
+espinosa@cs.columbia.edu
+\\
+Draft March 20, 1995
+\\
+\\
+original: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.31.2885
+\\
+\\
+iHdkz(訳)\\
 \begin{small}
-iHdkz(訳)
+Translator's figures including sample codes: https://github.com/iHdkz/semantic-lego
 \end{small}
 }
 \date{}							% Activate to display a given date or no date
@@ -75,22 +93,7 @@ iHdkz(訳)
 \begin{document}
 
 \maketitle
-\begin{center}
-Columbia University
 
-Department of Computer Science
-
-New York, NY 10027
-
-espinosa@cs.columbia.edu
-
-Draft March 20, 1995
-
-
-original: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.31.2885
-\end{center}
-
-Translator's figures including sample codes: https://github.com/iHdkz/semantic-lego
 
 \newpage
 
@@ -425,30 +428,55 @@ $$
 を検討する。
 \lstinputlisting[style=centering, caption=レベル交渉演算子, label=fig1.15]{figure1.15_Level-negotiating_operators.scm}
 \newpage
-\lstinputlisting[style=centering, caption=部品的インタプリタ 第一部, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
+\lstinputlisting[style=centering, caption=部品的インタプリタ パート１, label=fig1.16]{figure1.16_Modular_interpreter_part1.scm}
 \newpage
-\lstinputlisting[style=centering, caption=部品的インタプリタ 第二部, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
+\lstinputlisting[style=centering, caption=部品的インタプリタ パート２, label=fig1.17]{figure1.17_Modular_interpreter_part2.scm}
 \newpage
 
-\subsection{あるschemeに似た言語}
-我々は環境、値呼び出し手続き、ストア、継続、非決定性、そして例外処理を備えた言語のインタプリタを構築する。図1.18は完全な言語の仕様、基本的意味論、そして二つの例を示している。SLは自動的に
-\subsection{非決定性（nondeterministic）と継続（continuation）}
+\subsection{schemeのようなある言語}
+我々は環境、値呼び出し手続き、ストア、継続、非決定性、そして例外処理を備えた言語のインタプリタを構築する。図1.18は完全な言語の仕様、基本的意味論、そして二つの例を示している。SLは自動的に基本的な意味論の記述を接頭形式で生成する。
 
+我々は二つの段階を踏んでインタプリタを組み立てる。本質的に、SLはちょうど今しがた示した階層化インタプリタを組み立てるために用いた手動の方法を自動化する。まず初めに、意味論的モジュールのリストを引数に取る\verb|make-computations|を用いて計算ADTを定義する。結果を表すADTは適切に命名された\verb|unit|と\verb|bind|演算子の集まりでしかない。
+
+次に、いくつかの言語のコンストラクトのファイルを積み上げる。これらは計算ADTから抜き出した演算子を用いて言語ADTを定義する。これら定義はこの前の節におけるものと似ている。構成概念は任意の適切な意味論モジュールを含んだ計算ADT上で定義されるかもしれない。例えば、\verb|%amb|コンストラクトは\verb|nondeterminism|モジュールを必要とする。普通、同一のコンストラクトの定義は、異なる計算ADT上で定義されたとき、異なる意味論をもたらす。
+
+典型的なコンストラクトは\verb|%let|である。これの（\verb|environments|ファイルからの）ソースコードによる定義は、図1.19に示されている。我々は詳細にこの定義を説明するにはまだ十分にSLを記述していない、しかしその形式は明快であるはずだ。付録？？はSLの間もなく得られる各々のコンストラクトの定義が示されている。
+
+Schemeの手続きは大抵わかりにくいものだが、MIT Schemeは抽象的な構文であるコンストラクトを具現化することを可能にする。我々は次にインライン化とβ及びηリダクションを実行することでプログラムを簡約化する。計算ADTの演算子をインライン化することと簡約化することによって、言語のコンストラクトの表示的スタイルによる定義が自動的に生成される。
+
+図1.20に示されているように具体的に明記された計算ADTの文脈における\verb|%let|の簡約化の結果は、全く我々が手で書いたようなものである。SLの核心は\verb|%let|のソースコードによる定義はストアや継続について言及していないということである。けれどもそれらストアや継続はきちんと自動的に導入された。
+\subsection{非決定性と継続}
+この節では、非決定性と継続の間の相互作用を探し出すためにSLを用いる。我々は３つの異なった計算ADTを用いるが、
+\lstinputlisting[style=centering, caption=仕様と表現の例, label=fig1.18]{figure1.18_Example_specification_and_expressions.scm}
 \lstinputlisting[style=centering, caption=\%let ソースの定義, label=fig1.19]{figure1.19_let_source_definition.scm}
-
+\lstinputlisting[style=centering, caption=簡約化した\%letの定義, label=fig1.20]{figure1.20_let_definition_simplified.scm}
 \lstinputlisting[style=centering, caption=\%amb ソースの定義, label=fig1.21]{figure1.21_amb_source_definition.scm}
+すべての言語コンストラクトの定義は変更しないままとする。参考までに、図1.21は\verb|%amb|のソースコードによる定義を与えている。それぞれの意味論について、我々は計算ADTを形成するモジュール、基本的意味論、簡約版の\verb|%amb|、そして評価したプログラム例を示す。
 
+最初の意味論（図1.22）において、\verb|%amb|の部分表現は継続としての\verb|list|とともに評価された。その結果は付け加えられた上で返される。その例において、\verb|list|継続は１を足し合わせる継続に置き換えられた、したがって、結果は５１となる。
+
+二つ目の意味論（図1.23)において、我々は\verb|continuations|を\verb|continuations2|で置き換える。これらモジュールは継続のアンサーについての演算子の取り扱いについてだけ異なる。\verb|continuations|変換子は恒等継続を渡し、その渡した演算子を結果に適用し、それから適切な方法でオリジナルな継続に適用する。\verb|continuations2|はオリジナルの継続を直接渡しその渡した演算子を結果に適用する。この意味論における例の評価は明快である。
+
+三つ目の意味論（図1.24）において、我々は\verb|continuations|と\verb|nondeterminism|モジュールを逆の順序で組み合わせる。ここで、継続は値そのものではなく値のリストを受け取る。\verb|%amb|は二つのリストをとり、それらをつなぎ合わせ、その結果を継続させる。例において、捕まえた継続の呼び出しはこのプロセスを終了させ、４を直接返す。したがって、表現は他の二つの意味論と対比してただ一つの値を持つ。ここで意味論が提供するものに関して、これはスティールのシステムが生成するものだけが該当する[Ste94]。ついでながら、\verb|continuations|を\verb|continuations2|で置き換えることは\verb|%amb|を変更しないままにする。
 \lstinputlisting[style=centering, caption=\%ambバージョン1, label=fig1.22]{figure1.22_amb_version1.scm}
 
 \lstinputlisting[style=centering, caption=\%ambバージョン2, label=fig1.23）の表現]{figure1.23_amb_version2.scm}
 
 \lstinputlisting[style=centering, caption=\%ambバージョン3, label=fig1.24]{figure1.24_amb_version3.scm}
 
-\lstinputlisting[style=centering, caption=単一化された、パラメータによって指定されるシステム, label=fig1.25]{figure1.25_Unified_system_of_parametrization.scm}
-
-\subsection{単一化された、パラメータによって指定されるシステム（Unified system of parametrization）}
+\subsection{パラメータ化された統合システム}
+この節では、John Lampingの『パラメータ化された統合システム（Unified System of Parametrization）』[Lam88]を実現するためにSLを用いる。Lampingは、表現を（再帰的に）表示する変数上でパラメータ化された表現を取りうる意味論を記述している。この再帰は置き換えられた項が変数を含むこととなる置き換えをモデル化している。その言語はまた変化しない環境の名前呼び出しを含んでいる。すなわち、基本的意味論は
+$$
+Den = Env \rightarrow EEnv \rightarrow Val
+$$
+ここで$Env$と$EEnv$は$EEnv \rightarrow Val$を含んでいる。図1.25はSL言語の仕様と\verb|%evar|と\verb|%elet|の意味論を示している。なお、\verb|%evar|と\verb|%elet|の意味論は表現を作るために用いられた。***で表される線の部分は特に興味深い。図1.26はいくつかの例を示している。
 \subsection{再開機能（Resumption）}
 
+\lstinputlisting[style=centering, caption=パラメータ化された統合システム, label=fig1.25]{figure1.25_Unified_system_of_parametrization.scm}
+
+\lstinputlisting[style=centering, caption=統合されたパラメータ化の例, label=fig1.26]{figure1.26_Unified_parametrization_examples.scm}
+
+\lstinputlisting[style=centering, caption=再開機能を用いた平行言語, label=fig1.27]{figure1.27_Parallel_language_using_resumptions.scm }
 
 \newpage
 \chapter{モナド}
@@ -760,7 +788,7 @@ $$
     ストア        &  $Sto \rightarrow T(A \times Sto) $ & 周辺  \\ \hline
   \end{tabular}
 \end{table}
-\subsection{ モナド変換子の組み合わせ }
+\subsection{ モナド変換子の合成 }
 
 \begin{lstlisting}
 (compose
