@@ -33,7 +33,3 @@
 (define (eval-+ exp env)
   (+ (eval (op-arg1 exp) env)
      (eval (op-arg2 exp) env)))
-
-(define (eval-* exp env)
-  (* (eval (op-arg1 exp) env)
-     (eval (op-arg2 exp) env)))

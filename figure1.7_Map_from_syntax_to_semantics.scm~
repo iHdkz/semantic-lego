@@ -9,7 +9,7 @@
 	      (D (if-consequent exp))
 	      (D (if-alternative exp))))
 	((+? exp)
-	 (%+ (D (op-arg1 exp))
+	 (%* (D (op-arg1 exp))
 	     (D (op-arg2 exp))))
 	((*? exp)
 	 (%* (D (op-arg1 exp))

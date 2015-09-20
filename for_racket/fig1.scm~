@@ -19,7 +19,7 @@
 (define (eval-lambda exp env)
   (lambda (val)
     (eval (lambda-body exp)
-	  (env-extend env (lambda-variable exp) val))))
+	  (extend-env env (lambda-variable exp) val))))
 
 (define (eval-call exp env)
   ((eval (call-operator exp) env)
@@ -32,8 +32,4 @@
 
 (define (eval-+ exp env)
   (+ (eval (op-arg1 exp) env)
-     (eval (op-arg2 exp) env)))
-
-(define (eval-* exp env)
-  (* (eval (op-arg1 exp) env)
      (eval (op-arg2 exp) env)))
